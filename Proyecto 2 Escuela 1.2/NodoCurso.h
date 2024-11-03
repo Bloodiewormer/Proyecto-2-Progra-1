@@ -12,6 +12,6 @@ public:
 	NodoCurso* getSig();
 	void setSig(NodoCurso* Sig);
 	std::string cursosDisponibles();
-	std::string toStringDetallado();
+
 };
 

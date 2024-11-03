@@ -12,5 +12,6 @@ public:
 	Horario(string horaInicio, string horaFin, bool Dia[7]);
 	~Horario();
 	string toString();
+	string toStringCSV();
 };
 

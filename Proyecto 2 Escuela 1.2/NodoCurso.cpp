@@ -8,8 +8,8 @@ NodoCurso::NodoCurso(Curso* curso)
 }
 
 NodoCurso::~NodoCurso()
-{
-
+{	//Esto no se usa, al ser agregacion no se debe eliminar el curso
+	//delete curso;
 }
 
 Curso* NodoCurso::getCurso()
@@ -31,14 +31,7 @@ void NodoCurso::setSig(NodoCurso* Sig)
 std::string NodoCurso::cursosDisponibles()
 {
 	std::stringstream s;
-	s << curso->cursoDisponible();
-	return s.str();
-}
-
-
-std::string NodoCurso::toStringDetallado()
-{
-	std::stringstream s;
-	s << curso->toStringDetallado();
+	s <<"Nombre: " << curso->getNombre() << endl;
+	s <<"Codigo: " << curso->getcodigo() << endl;
 	return s.str();
 }

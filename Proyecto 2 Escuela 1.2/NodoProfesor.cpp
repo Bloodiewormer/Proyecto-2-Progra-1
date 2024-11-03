@@ -36,11 +36,4 @@ void NodoProfesor::setSiguiente(NodoProfesor* siguiente)
 	this->siguiente = siguiente;
 }
 
-std::string NodoProfesor::toString()
-{
-	std::stringstream s;
-	s << profesor->toString();
-	return s.str();
-}
-
 

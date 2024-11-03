@@ -12,6 +12,18 @@ Grupo::Grupo(std::string NCR, int cupo, Horario* horario)
 
 Grupo::~Grupo()
 {
+	if (estudiantes != nullptr) {
+		NodoEstudiante* aux = estudiantes->getPrimer();
+		while (aux != NULL)
+		{
+			if (aux->getEstudiante() != nullptr) {
+				aux->setEstudiante(nullptr);
+			}
+			aux = aux->getSiguiente();
+		}
+	}
+	delete estudiantes;
+	delete horario;
 }
 
 std::string Grupo::getNCR()
@@ -76,9 +88,15 @@ bool Grupo::matricularEstudiante(Estudiante* estudiante)
 {
 	if (cantidadEstudiantes < cupo)
 	{
-		estudiantes->insertarEstudiante(estudiante);
-		cantidadEstudiantes++;
-		return true;
+		if (estudiantes->insertarEstudiante(estudiante))
+		{
+			cantidadEstudiantes++;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	else
 	{
@@ -115,6 +133,7 @@ std::string Grupo::toString()
 	s << "cupo: " << cupo << "\n";
 	s << "cantidadEstudiantes: " << cantidadEstudiantes << "\n";
 	s << "horario: " << horario->toString() << "\n";
+	s << "Estudiantes: " << estudiantes->toString() << "\n";
 	
 	return s.str();
 	
@@ -124,3 +143,31 @@ std::string Grupo::toStringEstudiantes()
 {
 	return estudiantes->toString();
 }
+
+std::string Grupo::toStringCSV()
+{
+	std::stringstream s;
+	std::string ced;
+	if (profesor != nullptr)
+	{
+		ced = profesor->getcedula();
+	}
+	else
+	{
+		ced = "NULL";
+	}
+
+	s << NCR << "," << cupo << "," << cantidadEstudiantes << "," << horario->toStringCSV() << "," << ced<<",";
+	return s.str();
+	
+}
+
+std::string Grupo::toStringIDCSV()
+{
+
+	return estudiantes->toStringIDCSV();
+
+}
+
+
+

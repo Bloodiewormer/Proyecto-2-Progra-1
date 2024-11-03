@@ -8,7 +8,9 @@ public:
 	Profesor();
 	Profesor(std::string nombre, std::string cedula, std::string telefono, std::string correo, std::string GradoAcademico);
 	virtual ~Profesor();
-	std::string getGradoAcademico();
-	std::string toString();
+	std::string getGradoAcademico() const;
+	std::string toString() const override;
+	std::string toStringCSV() const override;
+
 };
 

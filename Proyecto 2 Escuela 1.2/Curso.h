@@ -17,18 +17,20 @@ public:
 	~Curso();
 	bool insertarGrupo(Grupo* grupo);
 	Grupo* buscarGrupo(std::string NCR);
-
 	Grupo* grupoImpartidoProfesor(Profesor* p);
 	Grupo* grupoEstudianteMatriculado(Estudiante* e);
 	bool ExisteEnOtroGrupo(Estudiante* estudiante, std::string NRC);
+	std::string getcodigo() const;
+	std::string getNombre() const;
+	int getCreditos() const;
+	double getCosto() const;
+	bool getEstado() const;
+	void setEstado(bool estado);
+	std::string gruposDisponibles() const;
+	std::string toString() const;
 
-	std::string getcodigo();
-	std::string getNombre();
-	int getCreditos();
-	double getCosto();
-	bool getEstado();
-	std::string cursoDisponible();
-	std::string gruposDisponibles();
-	std::string toStringDetallado();
+	//getters for Persistance
+	std::string toStringCSV() const;
+	std::string toStringGruposCSV() const;
 };
 

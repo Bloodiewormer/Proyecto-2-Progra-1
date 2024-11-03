@@ -12,6 +12,7 @@ Horario::Horario(string horaInicio, string horaFin, bool Dia[7])
 
 Horario::~Horario()
 {
+
 }
 
 string Horario::toString()
@@ -51,6 +52,25 @@ string Horario::toString()
 		}
 	}
 	return s.str();
+}
+
+string Horario::toStringCSV()
+{
+	stringstream s;
+	s << horaInicio << "," << horaFin << ",";
+	for (int i = 0; i < 7; i++)
+	{
+		if (Dia[i])
+		{
+			s << "1";
+		}
+		else
+		{
+			s << "0";
+		}
+	}
+	return s.str();
+	
 }
 
 

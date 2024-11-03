@@ -2,28 +2,28 @@
 
 ListaEstudiante::ListaEstudiante()
 {
-	primero = NULL;
+	primer = NULL;
 	actual = NULL;
 }
 
 ListaEstudiante::~ListaEstudiante()
 {
-	while (primero != NULL)
+	while (primer != NULL)
 	{
-		actual = primero;
-		primero = primero->getSiguiente();
+		actual = primer;
+		primer = primer->getSiguiente();
 		delete actual;
 	}
 }
 
 bool ListaEstudiante::listaVacia()
 {
-	return primero == NULL;
+	return primer == NULL;
 }
 
 bool ListaEstudiante::repetido(std::string cedula)
 {
-	NodoEstudiante* aux = primero;
+	NodoEstudiante* aux = primer;
 	while (aux != NULL)
 	{
 		if (aux->getEstudiante()->getcedula() == cedula)
@@ -35,6 +35,19 @@ bool ListaEstudiante::repetido(std::string cedula)
 	return false;
 }
 
+int ListaEstudiante::cantidadEstudiantes()
+{
+	int cont = 0;
+	actual = primer;
+	while (actual != NULL)
+	{
+		cont++;
+		actual = actual->getSiguiente();
+	}
+	return cont;
+
+}
+
 bool ListaEstudiante::insertarEstudiante(Estudiante* estudiante)
 {
 	if (repetido(estudiante->getcedula()))
@@ -44,11 +57,11 @@ bool ListaEstudiante::insertarEstudiante(Estudiante* estudiante)
 	NodoEstudiante* nuevo = new NodoEstudiante(estudiante);
 	if (listaVacia())
 	{
-		primero = nuevo;
+		primer = nuevo;
 	}
 	else
 	{
-		actual = primero;
+		actual = primer;
 		while (actual->getSiguiente() != NULL)
 		{
 			actual = actual->getSiguiente();
@@ -64,17 +77,17 @@ bool ListaEstudiante::eliminarEstudiante(std::string cedula)
 	{
 		return false;
 	}
-	if (primero->getEstudiante()->getcedula() == cedula)
+	if (primer->getEstudiante()->getcedula() == cedula)
 	{
-		actual = primero;
-		primero = primero->getSiguiente();
+		actual = primer;
+		primer = primer->getSiguiente();
 		delete actual;
 		return true;
 	}
 	else
 	{
-		NodoEstudiante* anterior = primero;
-		actual = primero->getSiguiente();
+		NodoEstudiante* anterior = primer;
+		actual = primer->getSiguiente();
 		while (actual != NULL && actual->getEstudiante()->getcedula() != cedula)
 		{
 			anterior = actual;
@@ -96,7 +109,7 @@ Estudiante* ListaEstudiante::buscarEstudiante(std::string cedula)
 	{
 		return NULL;
 	}
-	actual = primero;
+	actual = primer;
 	while (actual != NULL)
 	{
 		if (actual->getEstudiante()->getcedula() == cedula)
@@ -108,13 +121,18 @@ Estudiante* ListaEstudiante::buscarEstudiante(std::string cedula)
 	return NULL;
 }
 
-std::string ListaEstudiante::toString()
+NodoEstudiante* ListaEstudiante::getPrimer()
+{
+	return primer;
+}
+
+std::string ListaEstudiante::toString() 
 {
 	std::stringstream s;
-	actual = primero;
+	actual = primer;
 	while (actual != NULL)
 	{
-		s << actual->toString() << std::endl;
+		s << actual->getEstudiante()->toString();
 		s << "-----------------------------------" << std::endl;
 		actual = actual->getSiguiente();
 	}
@@ -124,5 +142,36 @@ std::string ListaEstudiante::toString()
 	}
 	return s.str();
 }
+
+std::string ListaEstudiante::toStringCSV()
+{
+	std::stringstream s;
+	actual = primer;
+	while (actual != NULL)
+	{
+		s << actual->getEstudiante()->toStringCSV() << std::endl;
+		actual = actual->getSiguiente();
+	}
+	return s.str();
+
+}
+
+std::string ListaEstudiante::toStringIDCSV()
+{
+	std::stringstream s;
+	actual = primer;
+	while (actual != NULL)
+	{
+		s << actual->getEstudiante()->getcedula() << ",";
+		actual = actual->getSiguiente();
+	}
+	if (listaVacia())
+	{
+		s << "" << std::endl;
+	}
+	return s.str();
+	
+}
+
 
 

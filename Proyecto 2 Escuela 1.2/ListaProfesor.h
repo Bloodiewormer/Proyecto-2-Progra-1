@@ -13,5 +13,6 @@ public:
 	bool insertarProfesor(Profesor* profesor);
 	Profesor* buscarProfesor(std::string cedula);
 	std::string toString();
+	std::string toStringCSV();
 };
 

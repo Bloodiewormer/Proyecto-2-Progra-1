@@ -8,6 +8,7 @@ public:
 	Estudiante();
 	Estudiante(std::string nombre, std::string cedula, std::string telefono, std::string correo, std::string especialidad);
 	virtual ~Estudiante();
-	std::string toString();
+	std::string toString() const override; //override indica que el metodo es virtual y se sobreescribe
+	std::string toStringCSV() const override; //override indica que el metodo es virtual y se sobreescribe
 };
 

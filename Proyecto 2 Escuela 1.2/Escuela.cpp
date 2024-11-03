@@ -74,8 +74,13 @@ bool Escuela::ingresarGrupo(Grupo* grupo, Periodo* periodo, Curso* curso)
 {
 	//need to create a new course equal to the actual course to dont share the list on curso
 	//need to create a new group equal to the actual group to dont share the list on grupo
+	if (periodo == nullptr)
+	{
+		return false;
+	}
 	if (periodo->buscarCurso(curso->getcodigo()) == nullptr)
 	{
+		curso->setEstado(true); //set the course to active, by default is inactive
 		periodo->insertarCurso(new Curso(curso->getNombre(), curso->getcodigo(), curso->getCreditos(), curso->getCosto(), curso->getEstado()));
 	}
 	if (periodo->buscarCurso(curso->getcodigo())->insertarGrupo(new Grupo(grupo->getNCR(), grupo->getCupo(), grupo->getHorario())))
@@ -180,6 +185,25 @@ std::string Escuela::informeProfesorEspecifico(Profesor* profesor)
 }
 
 
+int Escuela::cantidadDeCursosMatriculadosEstudiantePeriodo(Estudiante* estudiante, Periodo* periodo)
+{
+	return periodo->cantidadDeCursosMatriculadosEstudiante(estudiante);
+}
+
+int Escuela::cantidadDeCursosMatriculadosEstudiante(Estudiante* estudiante)
+{
+	int cont = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		if (periodos[i] != nullptr)
+		{
+			cont += periodos[i]->cantidadDeCursosMatriculadosEstudiante(estudiante);
+		}
+	}
+	return cont;
+	
+}
+
 ListaGrupo* Escuela::gruposMatriculadosEstudiantePeriodo(Estudiante* estudiante, Periodo* periodo)
 {
 	ListaGrupo* grupos = new ListaGrupo();
@@ -228,6 +252,71 @@ Periodo* Escuela::buscarPeriodo(int numPe)
 {
 	return periodos[numPe - 1];
 }
+
+ListaCurso* Escuela::getListaCursos()
+{
+	return listaCursos;
+}
+
+ListaGrupo* Escuela::getListaGrupos()
+{
+	return nullptr;
+}
+
+
+ListaProfesor* Escuela::getListaProfesores()
+{
+	return listaProfesores;
+}
+
+ListaEstudiante* Escuela::getListaEstudiantes()
+{
+	return listaEstudiantes;
+}
+
+std::string Escuela::PeriodosToStringCSV()
+{
+	std::stringstream s;
+	//Primero info para saber si el periodo esta habilitado
+	s << "Periodo1,Periodo2,Periodo3,Periodo4\n";
+	for (int i = 0; i < 4; i++) {
+		if (periodos[i] != nullptr) {
+			s << "1,";
+		}
+		else {
+			s << "0,";
+		}
+	} 
+	s << "\n";
+	// Ahora la info de los cursos
+	s << "CantidadCurso, NCR1,NCR2,NCR3,NCRn" << std::endl;//where n is the number of groups
+	for (int i = 0; i < 4; i++) {
+		if (periodos[i] != nullptr) {
+			s << periodos[i]->ToStringCSV();
+		}
+		else {
+			s << "0\n";
+		}
+	}
+	return s.str();
+	
+}
+
+std::string Escuela::GruposToStringCSV()
+{
+	std::stringstream s;
+	for (int i = 0; i < 4; i++) {
+		if (periodos[i] != nullptr) {
+			s << periodos[i]->ToStringGrupoCSV();
+		}
+	}
+	return s.str();
+	
+}
+
+
+
+
 	
 
 

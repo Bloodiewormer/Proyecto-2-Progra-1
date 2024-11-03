@@ -78,10 +78,23 @@ std::string ListaProfesor::toString()
 	NodoProfesor* aux = primero;
 	while (aux != NULL)
 	{
-		s <<aux->toString() << std::endl;
+		s << aux->getProfesor()->toString();
 		s << "-----------------------------------" << std::endl;
 		aux = aux->getSiguiente();
 	}
 	return s.str();
+}
+
+std::string ListaProfesor::toStringCSV()
+{
+	std::stringstream s;
+	NodoProfesor* aux = primero;
+	while (aux != NULL)
+	{
+		s << aux->getProfesor()->toStringCSV() << std::endl;
+		aux = aux->getSiguiente();
+	}
+	return s.str();
+
 }
 

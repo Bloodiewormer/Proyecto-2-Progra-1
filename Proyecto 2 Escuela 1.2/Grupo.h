@@ -8,9 +8,10 @@ private:
 	std::string NCR;
 	int cupo;
 	int cantidadEstudiantes;
-	Horario* horario;
-	Profesor* profesor; 
-	ListaEstudiante* estudiantes;
+	Horario* horario;//This relationship is composition
+	//Profesor can exist without a group and have multiple groups so this relationship is aggregation
+	Profesor* profesor; //This relationship is aggregation
+	ListaEstudiante* estudiantes;//This relationship is aggregation
 public:
 	Grupo(std::string NCR, int cupo, Horario* horario);
 	~Grupo();
@@ -34,5 +35,7 @@ public:
 
 	std::string toString();
 	std::string toStringEstudiantes();
+	std::string toStringCSV();
+	std::string toStringIDCSV();
 
 };

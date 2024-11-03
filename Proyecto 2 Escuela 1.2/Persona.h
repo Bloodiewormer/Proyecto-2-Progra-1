@@ -14,6 +14,7 @@ public:
 	virtual ~Persona();
 	std::string getcedula() const;
 	std::string getnombre() const;
-	virtual std::string toString() = 0;
+	virtual std::string toString() const = 0;	
+	virtual std::string toStringCSV() const = 0;
 };
 

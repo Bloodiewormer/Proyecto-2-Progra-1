@@ -36,12 +36,3 @@ void NodoGrupo::setSiguiente(NodoGrupo* siguiente)
 	this->siguiente = siguiente;
 }
 
-
-std::string NodoGrupo::toString()
-{
-	std::stringstream s;
-	s << "Grupo: " << grupo->toString() << "\n";
-	return s.str();
-}
-
-

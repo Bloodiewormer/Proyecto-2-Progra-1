@@ -13,6 +13,5 @@ public:
 	void setGrupo(Grupo* grupo);
 	NodoGrupo* getSiguiente();
 	void setSiguiente(NodoGrupo* siguiente);
-	std::string toString();
 };
 

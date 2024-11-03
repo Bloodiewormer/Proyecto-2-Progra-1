@@ -2,8 +2,8 @@
 
 ListaGrupo::ListaGrupo()
 {
-	Pirmas = NULL;
-	Exo = NULL;
+	primer = NULL;
+	actual = NULL;
 }
 
 ListaGrupo::~ListaGrupo()
@@ -13,7 +13,19 @@ ListaGrupo::~ListaGrupo()
 
 bool ListaGrupo::isEmpty()
 {
-	return Pirmas == NULL;
+	return primer == NULL;
+}
+
+bool ListaGrupo::Existe(string NRC)
+{
+	NodoGrupo* aux = primer;
+	while (aux != NULL)
+	{
+		if (aux->getGrupo()->getNCR() == NRC)
+			return true;
+		aux = aux->getSiguiente();
+	}
+	return false;
 }
 
 	
@@ -24,15 +36,27 @@ bool ListaGrupo::insertar(Grupo* grupo)
 		return false;
 	if (isEmpty())
 	{
-		Pirmas = nuevo;
-		Exo = nuevo;
+		primer = nuevo;
+		actual = nuevo;
 	}
 	else
 	{
-		Exo->setSiguiente(nuevo);
-		Exo = nuevo;
+		actual->setSiguiente(nuevo);
+		actual = nuevo;
 	}
 	return true;
+}
+
+int ListaGrupo::contarGrupos()
+{
+	int cont = 0;
+	NodoGrupo* aux = primer;
+	while (aux != NULL)
+	{
+		cont++;
+		aux = aux->getSiguiente();
+	}
+	return cont;
 }
 
 
@@ -41,38 +65,39 @@ bool ListaGrupo::insertar(Grupo* grupo)
 
 Grupo* ListaGrupo::NCRProfesor(Profesor* profesor)
 {
-	if (Pirmas == nullptr) {
+	if (primer == nullptr) {
 		return nullptr;
 	}
-	Exo = Pirmas;
-	while (Exo != NULL)
+	actual = primer;
+	while (actual != NULL)
 	{
-		if (Exo->getGrupo()->getProfesor()->getcedula() == profesor->getcedula()) {
-			return Exo->getGrupo();
+		if (actual->getGrupo()->getProfesor()->getcedula() == profesor->getcedula()) {
+			return actual->getGrupo();
 		}
+		actual = actual->getSiguiente();
 	}
 	return NULL;
 }
 
 Grupo* ListaGrupo::NCRMatriculado(Estudiante* estudiante)
 {
-	if (Pirmas == nullptr) {
+	if (primer == nullptr) {
 		return nullptr;
 	}
-	Exo = Pirmas;
-	while (Exo != NULL)
+	actual = primer;
+	while (actual != NULL)
 	{
-		if (Exo->getGrupo()->ExisteEstudiante(estudiante->getcedula())) {
-			return Exo->getGrupo();
+		if (actual->getGrupo()->ExisteEstudiante(estudiante->getcedula())) {
+			return actual->getGrupo();
 		}
-		Exo = Exo->getSiguiente();
+		actual = actual->getSiguiente();
 	}
 	return NULL;
 }
 
 bool ListaGrupo::ExisteEnOtroGrupo(Estudiante* estudiante, string NRC)
 {
-	NodoGrupo* aux = Pirmas;
+	NodoGrupo* aux = primer;
 	while (aux != NULL)
 	{
 		if (aux->getGrupo()->ExisteEstudiante(estudiante->getcedula()) && aux->getGrupo()->getNCR() != NRC)
@@ -87,7 +112,7 @@ bool ListaGrupo::ExisteEnOtroGrupo(Estudiante* estudiante, string NRC)
 
 Grupo* ListaGrupo::buscar(string NRC)
 {
-	NodoGrupo* aux = Pirmas;
+	NodoGrupo* aux = primer;
 	while (aux != NULL)
 	{
 		if (aux->getGrupo()->getNCR() == NRC)
@@ -101,13 +126,13 @@ string ListaGrupo::toString()
 {
 	int cont = 0;
 	std::stringstream s;
-	NodoGrupo* aux = Pirmas;
+	NodoGrupo* aux = primer;
 	while (aux != NULL)
 	{
 		cont++;
 		s << "-------------\n";
 		s << "Grupo " << cont << "\n";
-		s << aux->toString();
+		s << aux->getGrupo()->toString() << "\n";
 		s << "-------------\n";
 		aux = aux->getSiguiente();
 	}
@@ -116,3 +141,37 @@ string ListaGrupo::toString()
 }
 
 
+
+std::string ListaGrupo::toStringGrupos()
+{
+	std::stringstream s;
+	NodoGrupo* aux = primer;
+	int cont = 0;
+	while (aux != NULL)
+	{
+		cont++;
+		s << "-----------------------------------\n";
+		s << "Group" << cont << endl;
+		s << aux->getGrupo()->toString() << "\n";
+		s << "-----------------------------------\n";
+		aux = aux->getSiguiente();
+	}
+	if (cont == 0)
+		s << "NA" << std::endl;
+	return s.str();
+
+
+
+}
+
+string ListaGrupo::toStringCSV()
+{
+	std::stringstream s;
+	NodoGrupo* aux = primer;
+	while (aux != NULL)
+	{
+		s << aux->getGrupo()->toStringCSV() << aux->getGrupo()->toStringIDCSV() << endl;
+		aux = aux->getSiguiente();
+	}
+	return s.str();
+}

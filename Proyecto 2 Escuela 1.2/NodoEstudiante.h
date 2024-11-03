@@ -13,6 +13,5 @@ public:
 	void setEstudiante(Estudiante* estudiante);
 	NodoEstudiante* getSiguiente();
 	void setSiguiente(NodoEstudiante* siguiente);
-	std::string toString();
 };
 

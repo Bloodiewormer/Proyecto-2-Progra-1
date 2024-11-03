@@ -32,6 +32,16 @@ ListaCurso* Periodo::cursosMatriculadosEstudiante(Estudiante* e)
 	return cursos->cursosMatriculadosEstudiante(e);
 }
 
+
+
+int Periodo::cantidadDeCursosMatriculadosEstudiante(Estudiante* estudiante)
+{
+	return cursos->cantidadDeCursosMatriculadosEstudiante(estudiante);
+	
+}
+
+
+
 bool Periodo::insertarCurso(Curso* curso)
 {
 	return cursos->insertar(curso);
@@ -53,5 +63,24 @@ string Periodo::toString()
 	
 	return s.str();
 }
+
+string Periodo::ToStringCSV()
+{
+	std::stringstream s;
+	s << cursos->toStringPeriodoCSV();
+	return s.str();
+	
+}
+
+string Periodo::ToStringGrupoCSV()
+{
+	std::stringstream s;
+	s << NumPeriodo << endl
+	<< cursos->toStringGruposCSV();
+	return s.str();
+}
+
+
+
 
 

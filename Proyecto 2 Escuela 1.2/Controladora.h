@@ -1,11 +1,14 @@
 #pragma once
 #include "Interfaz.h"
 #include "Escuela.h"
+#include "FileManager.h"
 class Controladora
 {
 
 private:
 	Escuela* escuela;
+	FileManager* fileManager;
+
 public:
 	Controladora();
 	void iniciar();
@@ -13,8 +16,8 @@ public:
 	void submenuAdmin();
 	void submenuMatricula();
 	void submenuBusqueda();
-	//void guardarArchivos();
-	//void cargarArchivos();
+	void guardarArchivos();
+	void cargarArchivos();
 	void ingresarProfesor();
 	void ingresarEstudiante();
 	void habilitarPeriodoLectivo();

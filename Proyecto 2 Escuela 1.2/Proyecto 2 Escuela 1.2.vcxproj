@@ -132,6 +132,7 @@
     <ClInclude Include="Escuela.h" />
     <ClInclude Include="Estudiante.h" />
     <ClInclude Include="Factura.h" />
+    <ClInclude Include="FileManager.h" />
     <ClInclude Include="Grupo.h" />
     <ClInclude Include="Horario.h" />
     <ClInclude Include="Interfaz.h" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Escuela.cpp" />
     <ClCompile Include="Estudiante.cpp" />
     <ClCompile Include="Factura.cpp" />
+    <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Grupo.cpp" />
     <ClCompile Include="Horario.cpp" />
     <ClCompile Include="Interfaz.cpp" />

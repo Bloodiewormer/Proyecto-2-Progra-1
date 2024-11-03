@@ -74,47 +74,45 @@ bool Curso::ExisteEnOtroGrupo(Estudiante* estudiante, std::string NRC)
 }
 
 
-std::string Curso::getcodigo()
+std::string Curso::getcodigo() const
 {
-	return codigo;
+		return codigo;
 }
 
-int Curso::getCreditos()
+int Curso::getCreditos() const
 {
 	return creditos;
 	
 }
 
-double Curso::getCosto()
+double Curso::getCosto() const
 {
 	return costo;
 }
 
-bool Curso::getEstado()
+bool Curso::getEstado() const
 {
 	return estado;
 }
 
-std::string Curso::getNombre()
+void Curso::setEstado(bool estado)
+{
+	this->estado = estado;
+
+}
+
+std::string Curso::getNombre() const
 {
 	return nombre;
 
 }
 
-std::string Curso::cursoDisponible()
-{
-	std::stringstream s;
-	s << "Nombre: " << nombre << std::endl;
-	s << "Codigo: " << codigo << std::endl;
-	return s.str();
-}
-
-std::string Curso::gruposDisponibles()
+std::string Curso::gruposDisponibles() const
 {
 	return grupos->toString();
 }
 
-std::string Curso::toStringDetallado()
+std::string Curso::toString() const
 {
 	std::stringstream s;
 	s << "Nombre: " << nombre << std::endl;
@@ -122,9 +120,38 @@ std::string Curso::toStringDetallado()
 	s << "Creditos: " << creditos << std::endl;
 	s << "Costo: " << costo << std::endl;
 	s << "Estado: " << (estado ? "Abierto" : "Cerrado") << std::endl;
-	s << "Grupos: " << std::endl;
-	s << grupos->toString();
 	return s.str();
 }
+
+
+std::string Curso::toStringCSV() const
+{
+	std::stringstream s;
+	s << nombre << "," << codigo << "," << creditos << "," << costo << "," << (estado ? "Abierto" : "Cerrado");
+	return s.str();
+	
+}
+
+std::string Curso::toStringGruposCSV() const
+{
+	std::stringstream s;
+	int c = grupos->contarGrupos();
+	if (c == 0)
+	{
+		s << "";
+	}
+	else
+	{
+		s << "Codigo , Cant. Grupos" << std::endl;
+		s << codigo << "," << c << std::endl;
+		s << "ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn" << endl;
+		s << grupos->toStringCSV();
+	}
+	return s.str();
+}
+
+
+
+
 
 

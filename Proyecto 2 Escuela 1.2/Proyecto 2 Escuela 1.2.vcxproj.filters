@@ -96,6 +96,9 @@
     <ClInclude Include="Factura.h">
       <Filter>Header Files\Bases</Filter>
     </ClInclude>
+    <ClInclude Include="FileManager.h">
+      <Filter>Header Files\Interfaz</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="Factura.cpp">
       <Filter>Source Files\Bases</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>Source Files\Interfaz</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

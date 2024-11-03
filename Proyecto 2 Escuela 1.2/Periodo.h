@@ -18,9 +18,13 @@ public:
 	Grupo* buscarGrupo(string NCR);
 	ListaCurso* cursosImpartidosProfesor(Profesor* profesor);
 	ListaCurso* cursosMatriculadosEstudiante(Estudiante* e);
-	
+	int cantidadDeCursosMatriculadosEstudiante(Estudiante* estudiante);
 	bool insertarCurso(Curso* curso);
 	string cursosDisponibles();
 	string toString();
+
+	string ToStringCSV();
+	string ToStringGrupoCSV();
+	
 };
 

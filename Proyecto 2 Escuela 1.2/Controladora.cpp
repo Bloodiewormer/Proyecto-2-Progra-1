@@ -3,53 +3,12 @@
 Controladora::Controladora()
 {
 	escuela = new Escuela();
+	fileManager = new FileManager();
 }
 
 void Controladora::iniciar()
 {
-	// ingresar datos de prueba
-	//Profesor* P = new Profesor("David", "1", "1", "
-	escuela->ingresarProfesor(new Profesor("David", "1", "1", "dbfc@gmail.com", "Informatica"));
-	escuela->ingresarProfesor(new Profesor("Brandon", "2", "7187", "alfa@gmail.xom", "Informatica"));
-	escuela->ingresarProfesor(new Profesor("Fernando", "3", "1", "a.com", "Informatica"));
-	//Estudiante* E = new Estudiante("Juan", "1", "1", "a.com", "Informatica");
-	escuela->ingresarEstudiante(new Estudiante("Juan", "1", "1", "a.com", "Informatica"));
-	escuela->ingresarEstudiante(new Estudiante("Pedro", "2", "1", "a.com", "Informatica"));
-	escuela->ingresarEstudiante(new Estudiante("Maria", "3", "1", "a.com", "Informatica"));
-	//
-	escuela->habilitarPeriodo(1);
-	escuela->habilitarPeriodo(2);
-
-	escuela->ingresarCurso(new Curso("Informatica", "1", 4, 2000, 1));
-	escuela->ingresarCurso(new Curso("Matematica", "2", 4, 2000, 1));
-
-
-	bool dia[7] = { true, false, true, false, true, false, true };
-	bool dia2[7] = { false, true, false, true, false, true, false };
-	bool dia3[7] = { true, true, true, true, true, true, true };
-	bool dia4[7] = { false, false, false, false, false, false, false };
-	bool dia5[7] = { true, false, true, false, true, false, true };
-
-
-	Horario* h = new Horario("10:00", "12:00", dia);
-	Horario* h2 = new Horario("1:00", "2:00", dia2);
-	Horario* h3 = new Horario("3:00", "4:00", dia3);
-	Horario* h4 = new Horario("5:00", "6:00", dia4);
-	Horario* h5 = new Horario("7:00", "8:00", dia5);
-
-	escuela->ingresarGrupo(new Grupo("1", 20, h), escuela->buscarPeriodo(1), escuela->buscarCurso("1"));
-	escuela->ingresarGrupo(new Grupo("2", 20, h2), escuela->buscarPeriodo(1), escuela->buscarCurso("1"));
-	escuela->ingresarGrupo(new Grupo("3", 20, h3), escuela->buscarPeriodo(2), escuela->buscarCurso("1"));
-	escuela->ingresarGrupo(new Grupo("4", 20, h4), escuela->buscarPeriodo(2), escuela->buscarCurso("1"));
-	escuela->ingresarGrupo(new Grupo("5", 20, h5), escuela->buscarPeriodo(2), escuela->buscarCurso("2"));
-
-	escuela->asignarProfesor(escuela->buscarProfesor("1"), escuela->buscarPeriodo(1)->buscarCurso("1")->buscarGrupo("1"));
-	escuela->asignarProfesor(escuela->buscarProfesor("2"), escuela->buscarPeriodo(1)->buscarCurso("1")->buscarGrupo("2"));
-	escuela->asignarProfesor(escuela->buscarProfesor("1"), escuela->buscarPeriodo(2)->buscarCurso("1")->buscarGrupo("3"));
-	escuela->asignarProfesor(escuela->buscarProfesor("3"), escuela->buscarPeriodo(2)->buscarCurso("1")->buscarGrupo("4"));
-	escuela->asignarProfesor(escuela->buscarProfesor("2"), escuela->buscarPeriodo(2)->buscarCurso("2")->buscarGrupo("5"));
-
-
+	cargarArchivos();
 	Interfaz::mostarBanner();
 	menuPrincipal();
 }
@@ -71,7 +30,7 @@ void Controladora::menuPrincipal()
 			submenuBusqueda();
 			break;
 		case 4:
-			//guardarArchivos();
+			guardarArchivos();
 			break;
 		case 0:
 			if (Interfaz::ConfirmarSalida() == true)
@@ -191,19 +150,30 @@ void Controladora::submenuBusqueda()
 	} while (opcion != 0);
 }
 
-/*
+
 void Controladora::guardarArchivos()
 {
 	//Guardar Archivos
-
-
+	std::cout << "Guardando Archivos" << std::endl;
+	fileManager->guardarEstudiantes(escuela->getListaEstudiantes(),"Estudiantes.csv");
+	fileManager->guardarProfesores(escuela->getListaProfesores(), "Profesores.csv");
+	fileManager->guardarCursos(escuela->getListaCursos(), "Cursos.csv");
+	fileManager->guardarPeriodos(escuela, "Periodos.csv");
+	fileManager->guardarGrupos(escuela, "Grupos.csv");
 }
 
 void Controladora::cargarArchivos()
 {
 	//Cargar Archivos
+	std::cout << "Cargando Archivos" << std::endl;
+	std::system("sleep 1");
+	fileManager->cargarEstudiantes(escuela, "Estudiantes.csv");
+	fileManager->cargarProfesores(escuela, "Profesores.csv");
+	fileManager->cargarCursos(escuela, "Cursos.csv");
+	fileManager->cargarPeriodos(escuela, "Periodos.csv");
+	fileManager->cargarGrupos(escuela, "Grupos.csv");
 }
-*/
+
 void Controladora::ingresarProfesor()
 {
 	Profesor* P = Interfaz::ingresarProfesor();
@@ -249,13 +219,13 @@ void Controladora::ingresarCurso()
 void Controladora::crearGruposCursos()
 {
 	int numP = Interfaz::BuscarPeriodo(escuela);
+	cout << escuela->getListaCursos()->cursosDisponibles();//cout no deberia estar aca, pero estoy cansado, sorry
 	Curso* C = Interfaz::BuscarCurso(escuela);
 	Grupo* G = Interfaz::crearGruposCursos();
-
-	if (escuela->buscarPeriodo(numP) == NULL)
+	if (C == nullptr) 
+		Interfaz::mensaje("Error al Buscar Curso");
+	else if (escuela->buscarPeriodo(numP) == NULL)
 		Interfaz::mensaje("Periodo No Habilitado");
-	else if (escuela->buscarCurso(C->getcodigo()) == NULL)
-		Interfaz::mensaje("Curso No Existe");
 	else if (escuela->ingresarGrupo(G, escuela->buscarPeriodo(numP), C) == true)
 		Interfaz::mensaje("Grupo Ingresado Correctamente");
 	else
@@ -281,8 +251,7 @@ void Controladora::matricularEstudiante()
 	}
 	else if (escuela->matricularEstudiante(E, G) == true)
 		Interfaz::mensaje("Estudiante Matriculado Correctamente");
-	else
-		Interfaz::mensaje("Error al Matricular Estudiante");
+	
 
 
 		

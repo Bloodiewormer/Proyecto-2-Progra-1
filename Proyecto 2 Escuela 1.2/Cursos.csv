@@ -1,0 +1,7 @@
+nombre,codigo,creditos,costo,estado
+Progra,EIF201,3,2000,Abierto
+MateGeneral,MAT001,5,1500,Abierto
+Calculo,MAT002,5,3000,Abierto
+Algebra,MAT003,5,2500,Abierto
+Redes,EIF203,3,6000,Abierto
+BasesDeDatos,EIF214,4,3333,Cerrado

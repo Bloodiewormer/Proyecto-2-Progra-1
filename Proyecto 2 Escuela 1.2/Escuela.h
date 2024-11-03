@@ -36,6 +36,8 @@ public:
 	std::string informeProfesorEspecifico(Profesor* profesor);
 
 
+	int cantidadDeCursosMatriculadosEstudiantePeriodo(Estudiante* estudiante, Periodo* periodo);
+	int cantidadDeCursosMatriculadosEstudiante(Estudiante* estudiante);
 	ListaGrupo* gruposMatriculadosEstudiantePeriodo(Estudiante* estudiante, Periodo* periodo);
 	ListaCurso* cursosImpartidosProfesor(Profesor* profesor,Periodo* p);
 	Profesor* buscarProfesor(std::string cedula);
@@ -43,5 +45,18 @@ public:
 	Curso* buscarCurso(std::string codigo);
 	Grupo* buscarGrupo(std::string NCR);
 	Periodo* buscarPeriodo(int numPe);
+
+
+	//Lo siguiente es para la Persistencia
+	ListaCurso* getListaCursos();
+	ListaGrupo* getListaGrupos();
+	ListaProfesor* getListaProfesores();
+	ListaEstudiante* getListaEstudiantes();
+
+	std::string PeriodosToStringCSV();
+
+	std::string GruposToStringCSV();
+
+
 };
 

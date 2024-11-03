@@ -2,23 +2,35 @@
 
 ListaCurso::ListaCurso()
 {
-	Pirmas = NULL;
-	Exo = NULL;
+	primer = NULL;
+	actual = NULL;
 }
 
 ListaCurso::~ListaCurso()
-{
-	/*while (!isEmpty())
+{//Elimina los nodos, pero no los cursos 
+	while (isEmpty())
 	{
-		NodoCurso* aux = Pirmas;
-		Pirmas = Pirmas->getSig();
-		delete aux;
-	}*/
+		actual = primer;
+		primer = primer->getSig();
+		delete actual;
+	}
 }
 
-bool ListaCurso::isEmpty()
+bool ListaCurso::isEmpty() const
 {
-	return Pirmas == NULL;
+	return primer == NULL;
+}
+
+bool ListaCurso::Existe(std::string codigo)
+{
+	actual = primer;
+	while (actual != NULL)
+	{
+		if (actual->getCurso()->getcodigo() == codigo)
+			return true;
+		actual = actual->getSig();
+	}
+	return false;
 }
 
 bool ListaCurso::insertar(Curso* curso)
@@ -28,33 +40,64 @@ bool ListaCurso::insertar(Curso* curso)
 		return false;
 	if (isEmpty())
 	{
-		Pirmas = nuevo;
-		Exo = nuevo;
+		primer = nuevo;
+		actual = nullptr;
 	}
 	else
 	{
-		Exo->setSig(nuevo);
-		Exo = nuevo;
+		actual = primer;
+		while (actual->getSig() != NULL)
+		{
+			actual = actual->getSig();
+		}
+		actual->setSig(nuevo);
+		actual = nuevo;
 	}
 	return true;
+}
+
+int ListaCurso::contarCursos()
+{
+	int cont = 0;
+	actual = primer;
+	while (actual != NULL)
+	{
+		cont++;
+		actual = actual->getSig();
+	}
+	return cont;
+
+}
+
+int ListaCurso::cantidadDeCursosMatriculadosEstudiante(Estudiante* estudiante)
+{
+	int cantidad = 0;
+	actual = primer;
+	while (actual != NULL)
+	{
+		if (actual->getCurso()->grupoEstudianteMatriculado(estudiante) != NULL)
+			cantidad++;
+		actual = actual->getSig();
+	}
+	return cantidad;
 }
 
 ListaCurso* ListaCurso::cursosImpartidosProfesor(Profesor* profesor)
 {
 	//los cursos devueltos solo deben tener los grupos en los que el profesor imparte
 	ListaCurso* cursos = new ListaCurso();
-	Exo = Pirmas;
+	actual = primer;
 	int size = 0;
-	while (Exo != NULL)
+	while (actual != NULL)
 	{
-		if (Exo->getCurso()->grupoImpartidoProfesor(profesor) != NULL)
+		if (actual->getCurso()->grupoImpartidoProfesor(profesor) != NULL)
 		{
-			Curso* c = new Curso(Exo->getCurso()->getNombre(), Exo->getCurso()->getcodigo(), Exo->getCurso()->getCreditos(), Exo->getCurso()->getCosto(), Exo->getCurso()->getEstado());
-			c->insertarGrupo(Exo->getCurso()->grupoImpartidoProfesor(profesor));
+			Curso* c = new Curso(actual->getCurso()->getNombre(), actual->getCurso()->getcodigo(), actual->getCurso()->getCreditos(), actual->getCurso()->getCosto(), actual->getCurso()->getEstado());
+			c->insertarGrupo(actual->getCurso()->grupoImpartidoProfesor(profesor));
 			cursos->insertar(c);
 			size++;
 		}
-		Exo = Exo->getSig();
+		actual = actual->getSig();
 	}
 	if (size == 0)
 	{
@@ -67,17 +110,17 @@ ListaCurso* ListaCurso::cursosMatriculadosEstudiante(Estudiante* e)
 {
 	//los cursos devueltos solo deben tener los grupos en los que el estudiante esta matriculado
 	ListaCurso* cursos = new ListaCurso();
-	Exo = Pirmas;
+	actual = primer;
 
-	while (Exo != NULL)
+	while (actual != NULL)
 	{
-		if (Exo->getCurso()->grupoEstudianteMatriculado(e) != NULL)
+		if (actual->getCurso()->grupoEstudianteMatriculado(e) != NULL)
 		{
-			Curso* c = new Curso(Exo->getCurso()->getNombre(), Exo->getCurso()->getcodigo(), Exo->getCurso()->getCreditos(), Exo->getCurso()->getCosto(), Exo->getCurso()->getEstado());
-			c->insertarGrupo(Exo->getCurso()->grupoEstudianteMatriculado(e));
+			Curso* c = new Curso(actual->getCurso()->getNombre(), actual->getCurso()->getcodigo(), actual->getCurso()->getCreditos(), actual->getCurso()->getCosto(), actual->getCurso()->getEstado());
+			c->insertarGrupo(actual->getCurso()->grupoEstudianteMatriculado(e));
 			cursos->insertar(c);
 		}
-		Exo = Exo->getSig();
+		actual = actual->getSig();
 	}
 	return cursos;
 }
@@ -86,7 +129,7 @@ ListaCurso* ListaCurso::cursosMatriculadosEstudiante(Estudiante* e)
 
 Curso* ListaCurso::buscar(std::string codigo)
 {
-	NodoCurso* aux = Pirmas;
+	NodoCurso* aux = primer;
 	while (aux != NULL)
 	{
 		if (aux->getCurso()->getcodigo() == codigo)
@@ -98,7 +141,7 @@ Curso* ListaCurso::buscar(std::string codigo)
 
 Grupo* ListaCurso::buscarGrupo(std::string NCR)
 {
-	NodoCurso* aux = Pirmas;
+	NodoCurso* aux = primer;
 	while (aux != NULL)
 	{
 		if (aux->getCurso()->buscarGrupo(NCR) != NULL)
@@ -111,11 +154,11 @@ Grupo* ListaCurso::buscarGrupo(std::string NCR)
 std::string ListaCurso::toString()
 {
 	std::stringstream s;
-	NodoCurso* aux = Pirmas;
+	NodoCurso* aux = primer;
 	s << "---------------------------------------------------" << std::endl;
 	while (aux != NULL)
 	{
-		s << aux->toStringDetallado() << std::endl;
+		s << aux->getCurso()->toString() << std::endl;
 		aux = aux->getSig();
 		s << "---------------------------------------------------" << std::endl;
 	}
@@ -128,19 +171,63 @@ std::string ListaCurso::toString()
 std::string ListaCurso::cursosDisponibles()
 {
 	std::stringstream s;
-	NodoCurso* aux = Pirmas;
+	NodoCurso* aux = primer;
 	s << "---------------------------------------------------" << std::endl;
-	while (aux != NULL)
-	{
-		if (aux->getCurso()->getEstado())
-		{
+	while (aux != NULL){
+		if (aux->getCurso()->getEstado()){
 			s << aux->cursosDisponibles() << std::endl;
 			s << "---------------------------------------------------" << std::endl;
 		}
 		aux = aux->getSig();
 	}
+	if (isEmpty())
+		s << "No hay cursos registrados" << std::endl;
 
 	return s.str();
 
 	
 }
+
+std::string ListaCurso::toStringCSV()
+{
+	std::stringstream s;
+	NodoCurso* aux = primer;
+	while (aux != NULL)
+	{
+		s << aux->getCurso()->toStringCSV() << std::endl;
+		aux = aux->getSig();
+	}
+	return s.str();
+}
+
+std::string ListaCurso::toStringPeriodoCSV()
+{
+	std::stringstream s;
+	NodoCurso* aux = primer;
+	int cont = contarCursos();
+	s << cont;
+	aux = primer;
+	//lo siguienete metera los codigos de los cursos en un string de la forma "codigo1,codigo2,codigo3"
+	while (aux != NULL)
+	{
+		s <<","<< aux->getCurso()->getcodigo();
+		aux = aux->getSig();
+	}
+	s << "\n";
+	return s.str();
+	
+}
+
+std::string ListaCurso::toStringGruposCSV()
+{
+	std::stringstream s;
+	NodoCurso* aux = primer;
+	while (aux != NULL)
+	{
+		s << aux->getCurso()->toStringGruposCSV();
+		aux = aux->getSig();
+	}
+	return s.str();
+}
+
+
