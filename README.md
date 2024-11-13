@@ -35,7 +35,7 @@ This project is a Virtual Academy Management System called **Eureka AI School**,
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/eureka-ai-school-management.git
+   git clone https://github.com/Bloodiewormer/eureka-ai-school-management.git
    ```
 
 2. Open the project in your preferred C++ IDE (e.g., Visual Studio).
