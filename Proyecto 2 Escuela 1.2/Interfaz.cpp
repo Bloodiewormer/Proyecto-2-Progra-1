@@ -68,7 +68,7 @@ int Interfaz::submenuBusqueda(){
 	std::cout << "2-Informe Estudiantes Registrados\n";
 	std::cout << "3-Informe Cursos Matriculados por un Estudiante\n";
 	std::cout << "4-Informe Profesor Especifico\n";
-	std::cout << "5-Informe Periodos Habilitados para el Año\n";
+	std::cout << "5-Informe Periodos Habilitados para el AÃ±o\n";
 	std::cout << "6-Informe Grupo Especifico\n";
 	std::cout << "0-Regresar al Menu Principal\n";
 	std::cout << "=====================================\n";
@@ -359,6 +359,12 @@ void Interfaz::informeCursosMatriculadosEstudiante(Escuela* E){
 	std::string CI;
 	std::cin >> CI;
 	Estudiante* estudiante = E->buscarEstudiante(CI);
+	if (estudiante == nullptr) {
+	std::cout << "Estudiante no encontrado\n";
+	system("pause");
+	system("cls");
+	return;
+	}
 	system("cls");
 	std::cout << "=====================================================\n";
 	std::cout << "||    Informe Cursos Matriculados por un Estudiante ||\n";
