@@ -2,8 +2,7 @@
 #include "Horario.h"
 #include "Profesor.h"
 #include "ListaEstudiante.h"
-class Grupo
-{
+class Grupo{
 private:
 	std::string NCR;
 	int cupo;
@@ -13,29 +12,29 @@ private:
 	Profesor* profesor; //This relationship is aggregation
 	ListaEstudiante* estudiantes;//This relationship is aggregation
 public:
+	//Constructors
 	Grupo(std::string NCR, int cupo, Horario* horario);
-	~Grupo();
+	//Destructor
+	virtual ~Grupo();
+	//Getters
 	std::string getNCR();
 	int getCupo();
 	int getCantidadEstudiantes();
-
-	bool ExisteEstudiante(std::string cedula);
-
-
-	Estudiante* buscarEstudiante(std::string cedula);
 	Horario* getHorario();
 	Profesor* getProfesor();
-
+	//Setters
 	void setCupo(int cupo);
 	void setCantidadEstudiantes(int cantidadEstudiantes);
 	bool setProfesor(Profesor* profesor);
-
+	// Tools
+	bool ExisteEstudiante(std::string cedula);
+	Estudiante* buscarEstudiante(std::string cedula);
+	// Methods
 	bool matricularEstudiante(Estudiante* estudiante);
 	bool darBajaEstudiante(Estudiante* estudiante);
-
+	//toString
 	std::string toString();
 	std::string toStringEstudiantes();
 	std::string toStringCSV();
 	std::string toStringIDCSV();
-
 };

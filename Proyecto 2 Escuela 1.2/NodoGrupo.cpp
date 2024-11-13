@@ -1,38 +1,33 @@
 #include "NodoGrupo.h"
 
-NodoGrupo::NodoGrupo()
-{
+NodoGrupo::NodoGrupo(){
 	this->grupo = NULL;
 	this->siguiente = NULL;
 }
 
-NodoGrupo::NodoGrupo(Grupo* grupo)
-{
+NodoGrupo::NodoGrupo(Grupo* grupo){
 	this->grupo = grupo;
 	this->siguiente = NULL;
 }
 
-NodoGrupo::~NodoGrupo()
-{
+NodoGrupo::~NodoGrupo(){
+	if (grupo != nullptr) {
+		delete grupo;
+	}
 }
 
-Grupo* NodoGrupo::getGrupo()
-{
+Grupo* NodoGrupo::getGrupo(){
 	return grupo;
 }
 
-void NodoGrupo::setGrupo(Grupo* grupo)
-{
+void NodoGrupo::setGrupo(Grupo* grupo){
 	this->grupo = grupo;
 }
 
-NodoGrupo* NodoGrupo::getSiguiente()
-{
+NodoGrupo* NodoGrupo::getSiguiente(){
 	return siguiente;
 }
 
-void NodoGrupo::setSiguiente(NodoGrupo* siguiente)
-{
+void NodoGrupo::setSiguiente(NodoGrupo* siguiente){
 	this->siguiente = siguiente;
 }
-

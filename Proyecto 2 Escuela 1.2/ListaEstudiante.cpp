@@ -167,7 +167,7 @@ std::string ListaEstudiante::toStringIDCSV()
 	}
 	if (listaVacia())
 	{
-		s << "" << std::endl;
+		s << "";
 	}
 	return s.str();
 	

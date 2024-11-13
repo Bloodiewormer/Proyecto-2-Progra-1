@@ -2,15 +2,14 @@
 #include "Interfaz.h"
 #include "Escuela.h"
 #include "FileManager.h"
-class Controladora
-{
+class Controladora{//clase controladora que se encarga de la logica del programa
 
 private:
 	Escuela* escuela;
 	FileManager* fileManager;
-
 public:
 	Controladora();
+	virtual ~Controladora();
 	void iniciar();
 	void menuPrincipal();
 	void submenuAdmin();

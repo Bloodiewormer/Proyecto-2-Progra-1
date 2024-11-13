@@ -61,6 +61,9 @@ bool ListaProfesor::insertarProfesor(Profesor* profesor)
 Profesor* ListaProfesor::buscarProfesor(std::string cedula)
 {
 	NodoProfesor* aux = primero;
+	if (cedula == "NULL") {
+		return NULL;
+	}
 	while (aux != NULL)
 	{
 		if (aux->getProfesor()->getcedula() == cedula)

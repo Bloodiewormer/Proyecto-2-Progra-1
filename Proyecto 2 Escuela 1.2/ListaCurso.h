@@ -1,7 +1,6 @@
 #pragma once
 #include "NodoCurso.h"
-class ListaCurso
-{
+class ListaCurso{
 private:
 	NodoCurso* primer;
 	NodoCurso* actual;
@@ -9,22 +8,19 @@ public:
 	ListaCurso();
 	~ListaCurso();
 	bool isEmpty() const;
-	bool Existe(std::string codigo);
+	bool existeCurso(std::string codigo);
 	bool insertar(Curso* curso);
+	bool existeGrupo(std::string NCR);
 	int contarCursos();
-
-
 	int cantidadDeCursosMatriculadosEstudiante(Estudiante* estudiante);
 	ListaCurso* cursosImpartidosProfesor(Profesor* profesor);
-	ListaCurso* cursosMatriculadosEstudiante(Estudiante* e);
 	Curso* buscar(std::string codigo);
 	Grupo* buscarGrupo(std::string NCR);
-
-	std::string toString();;
+	NodoCurso* getPrimer();
+	std::string cursosMatriculadosEstudiante(Estudiante* e);
+	std::string toString();
 	std::string cursosDisponibles();
 	std::string toStringCSV();
 	std::string toStringPeriodoCSV();
-	std::string toStringGruposCSV();
-
+	std::string toStringGruposCSV(int p);
 };
-

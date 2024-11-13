@@ -1,7 +1,6 @@
 #pragma once
 #include "Curso.h"
-class NodoCurso
-{
+class NodoCurso{
 private:
 	Curso* curso;
 	NodoCurso* Sig;
@@ -11,7 +10,5 @@ public:
 	Curso* getCurso();
 	NodoCurso* getSig();
 	void setSig(NodoCurso* Sig);
-	std::string cursosDisponibles();
-
+	void setCurso(Curso* curso);
 };
-

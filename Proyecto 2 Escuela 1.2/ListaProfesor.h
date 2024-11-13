@@ -1,7 +1,6 @@
 #pragma once
 #include "NodoProfesor.h"
-class ListaProfesor
-{
+class ListaProfesor{
 private:
 	NodoProfesor* primero;
 	NodoProfesor* actual;
@@ -15,4 +14,3 @@ public:
 	std::string toString();
 	std::string toStringCSV();
 };
-

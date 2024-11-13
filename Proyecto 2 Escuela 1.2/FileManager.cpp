@@ -2,98 +2,71 @@
 //ofstream is used to write to a file
 //ifstream is used to read from a file
 
-void FileManager::guardarEstudiantes(ListaEstudiante* e, std::string nombreArchivo)
-{
-	std::ofstream archivo(nombreArchivo, ios::out); //ios::out is used to write to a file
-	if (archivo.is_open())							//this deletes the content of the file and writes the new content
-	{
+void FileManager::guardarEstudiantes(ListaEstudiante* e, std::string nombreArchivo){
+	std::ofstream archivo(nombreArchivo, std::ios::out); //ios::out is used to write to a file
+	if (archivo.is_open())	{						//this deletes the content of the file and writes the new content
 		archivo << "nombre,cedula,telefono,correo,especialidad\n";
 		archivo << e->toStringCSV();
 		archivo.close();
 	}
-	else
-	{
+	else{
 		std::cout << "No se pudo abrir el archivo" << std::endl;
 	}
-	
 }
 
-void FileManager::guardarProfesores(ListaProfesor* p, std::string nombreArchivo)
-{
+void FileManager::guardarProfesores(ListaProfesor* p, std::string nombreArchivo){
 	std::ofstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
+	if (archivo.is_open()){
 		archivo << "nombre,cedula,telefono,correo,GradoAcademico\n";
 		archivo << p->toStringCSV();
 		archivo.close();
 	}
-	else
-	{
+	else{
 		std::cout << "No se pudo abrir el archivo" << std::endl;
 	}
-	
 }
 
-void FileManager::guardarCursos(ListaCurso* c, std::string nombreArchivo)
-{
+void FileManager::guardarCursos(ListaCurso* c, std::string nombreArchivo){
 	std::ofstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
+	if (archivo.is_open()){
 		archivo << "nombre,codigo,creditos,costo,estado\n";
 		archivo << c->toStringCSV();
 		archivo.close();
 	}
-	else
-	{
+	else{
 		std::cout << "No se pudo abrir el archivo" << std::endl;
 	}
-	
 }
 
-void FileManager::guardarPeriodos(Escuela *e, std::string nombreArchivo)
-{
+void FileManager::guardarPeriodos(Escuela *e, std::string nombreArchivo){
 	std::ofstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
+	if (archivo.is_open()){
 		archivo << e->PeriodosToStringCSV();	
 		archivo.close();
 	}
-	else
-	{
+	else{
 		std::cout << "No se pudo abrir el archivo" << std::endl;
 	}
-	
-	
 }
 
-void FileManager::guardarGrupos(Escuela* e, std::string nombreArchivo)
-{
+void FileManager::guardarGrupos(Escuela* e, std::string nombreArchivo){
 	std::ofstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
-		//"codigo","ncr","cupo","cantEst",hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
+	if (archivo.is_open()){
 		archivo << e->GruposToStringCSV();
 		archivo.close();
 	}
-	else
-	{
+	else{
 		std::cout << "No se pudo abrir el archivo" << std::endl;
 	}
-
 }
 
-
-
-void FileManager::cargarEstudiantes(Escuela* escuela, std::string nombreArchivo)
-{
+void FileManager::cargarEstudiantes(Escuela* escuela, std::string nombreArchivo){
 	std::ifstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
+	if (archivo.is_open()){
 		std::string linea;
 		std::getline(archivo, linea);
-		while (std::getline(archivo, linea))
-		{
-			std::stringstream s(linea);
+		while (std::getline(archivo, linea)){
+			std::stringstream s(linea); 
 			std::string nombre, cedula, telefono, correo, especialidad;
 			std::getline(s, nombre, ',');
 			std::getline(s, cedula, ',');
@@ -104,21 +77,17 @@ void FileManager::cargarEstudiantes(Escuela* escuela, std::string nombreArchivo)
 		}
 		archivo.close();
 	}
-	else
-	{
-		std::cout << "No se pudo abrir el archivo A" << std::endl;
+	else{
+		std::cout << "No se pudo abrir el archivo E" << std::endl;
 	}
 }
 
-void FileManager::cargarProfesores(Escuela* escuela, std::string nombreArchivo)
-{
+void FileManager::cargarProfesores(Escuela* escuela, std::string nombreArchivo){
 	std::ifstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
+	if (archivo.is_open()){
 		std::string linea;
 		std::getline(archivo, linea);
-		while (std::getline(archivo, linea))
-		{
+		while (std::getline(archivo, linea)){
 			std::stringstream s(linea);
 			std::string nombre, cedula, telefono, correo, GradoAcademico;
 			std::getline(s, nombre, ',');
@@ -130,22 +99,17 @@ void FileManager::cargarProfesores(Escuela* escuela, std::string nombreArchivo)
 		}
 		archivo.close();
 	}
-	else
-	{
+	else{
 		std::cout << "No se pudo abrir el archivo P" << std::endl;
 	}
-
 }
 
-void FileManager::cargarCursos(Escuela* escuela, std::string nombreArchivo)
-{
+void FileManager::cargarCursos(Escuela* escuela, std::string nombreArchivo){
 	std::ifstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
+	if (archivo.is_open()){
 		std::string linea;
 		std::getline(archivo, linea);
-		while (std::getline(archivo, linea))
-		{
+		while (std::getline(archivo, linea)){
 			std::stringstream s(linea);
 			std::string nombre, codigo, creditos, costo, estado;
 			std::getline(s, nombre, ',');
@@ -157,26 +121,22 @@ void FileManager::cargarCursos(Escuela* escuela, std::string nombreArchivo)
 		}
 		archivo.close();
 	}
-	else
-	{
+	else{
 		std::cout << "No se pudo abrir el archivo C" << std::endl;
 	}
-
-
 }
 
-void FileManager::cargarPeriodos(Escuela* escuela, std::string nombreArchivo)
-{
-//Periodo1,Periodo2,Periodo3,Periodo4
-//	1,0,0,0
-// // 1 means the period is enabled
-
+void FileManager::cargarPeriodos(Escuela* escuela, std::string nombreArchivo){
 	std::ifstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
+	if (archivo.is_open()){
 		//first enable the periods
 		std::string linea;
 		std::getline(archivo, linea);
+		//if file is empty
+		if (linea == "") {
+			archivo.close();
+			return;
+		}
 		std::getline(archivo, linea);
 		std::stringstream s(linea);
 		std::string periodo1, periodo2, periodo3, periodo4;
@@ -194,99 +154,94 @@ void FileManager::cargarPeriodos(Escuela* escuela, std::string nombreArchivo)
 			escuela->habilitarPeriodo(4);
 		//then add the courses to the periods
 		std::getline(archivo, linea);
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 1; i <= 4; i++){
 			std::getline(archivo, linea);
 			std::stringstream s2(linea);
 			std::string cantidadCursos;
 			std::getline(s2, cantidadCursos, ',');
-				for (int i = 0; i < std::stoi(cantidadCursos); i++) {
-					//in the same line nesxt to the number of courses is the ncr
-					std::string ncr;
-					std::getline(s2, ncr, ',');
-					escuela->buscarPeriodo(1)->insertarCurso(escuela->buscarCurso(ncr));
-				}
-		}
-	//then add the groups to the courses
-
-
-		archivo.close();
-	}
-	else
-	{
-		std::cout << "No se pudo abrir el archivo P" << std::endl;
-	}
-
-
-}
-
-void FileManager::cargarGrupos(Escuela* escuela, std::string nombreArchivo)
-{/*
-Periodo 1
-Codigo , Cant. Grupos
-EIF201,2
-ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
-1,10,2,11,12,1000101,4,1,2
-2,10,1,5,6,1000000,NULL,24
-
-Codigo , Cant. Grupos
-MAT001,1
-ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
-3,14,2,9,11,0100001,6,11,13
-
-Periodo 2
-Codigo , Cant. Grupos
-MAT002,1
-ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
-4,9,1,3,7,1111111,38,22
-
-Periodo 3
-Codigo , Cant. Grupos
-EIF203,1
-ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
-5,14,14,6,8,0000010,3,1,2,7,8,9,10,11,12,13,14,15,16,17,18
-*/
-	std::ifstream archivo(nombreArchivo);
-	if (archivo.is_open())
-	{
-		std::string linea;
-		std::getline(archivo, linea);
-		while (std::getline(archivo, linea))
-		{
-			std::stringstream s(linea);
-			std::string codigo, cantidadGrupos;
-			std::getline(s, codigo, ',');
-			std::getline(s, cantidadGrupos, ',');
-			for (int i = 0; i < std::stoi(cantidadGrupos); i++) {
-				std::getline(archivo, linea);
-				std::stringstream s2(linea);
-				std::string ncr, cupo, cantEst, hrIni, hrFi, Horario, cedp, cedA1, cedA2, cedAn;
+			for (int j = 0; j < std::stoi(cantidadCursos); j++) {
+				//in the same line next to the number of courses is the ncr
+				std::string ncr;
 				std::getline(s2, ncr, ',');
-				std::getline(s2, cupo, ',');
-				std::getline(s2, cantEst, ',');
-				std::getline(s2, hrIni, ',');
-				std::getline(s2, hrFi, ',');
-				std::getline(s2, Horario, ',');
-				std::getline(s2, cedp, ',');
-				std::getline(s2, cedA1, ',');
-				std::getline(s2, cedA2, ',');
-				std::getline(s2, cedAn, ',');
+				Curso* c = escuela->buscarCurso(ncr);
+				escuela->buscarPeriodo(i)->insertarCurso(new Curso(c->getNombre(), c->getcodigo(), c->getCreditos(), c->getCosto(), c->getEstado()));//create a new course to dont share the list
 			}
 		}
 		archivo.close();
 	}
-	else
-	{
-		std::cout << "No se pudo abrir el archivo G" << std::endl;
+	else{
+		std::cout << "No se pudo abrir el archivo P" << std::endl;
 	}
-
-
-
 }
 
-
-
-
-
-
-
+void FileManager::cargarGrupos(Escuela* escuela, std::string nombreArchivo){//odio mucho a este metodo
+	std::ifstream archivo(nombreArchivo);
+	if (!archivo.is_open()) {
+		std::cout << "No se pudo abrir el archivo." << std::endl;
+		return;
+	}
+	std::string linea;
+	while (std::getline(archivo, linea)) {
+		std::string periodo, codigo;
+		int cantGrupos, periodoNum;
+		std::getline(archivo, linea);
+		// Leer periodo, codigo y cantGrupos
+		std::stringstream ss(linea);
+		std::getline(ss, periodo, ',');
+		std::getline(ss, codigo, ',');
+		ss >> cantGrupos;
+		if (periodo == "1") periodoNum = 1;
+		else if (periodo == "2") periodoNum = 2;
+		else if (periodo == "3") periodoNum = 3;
+		else if (periodo == "4") periodoNum = 4;
+		else periodoNum = 0;
+		std::getline(archivo, linea);//fin de curso info
+		// Leer cada grupo asociado
+		for (int i = 0; i < cantGrupos; ++i) {
+			std::getline(archivo, linea);
+			std::stringstream grupoStream(linea);
+			std::string ncr, cupo, cantEst, hrIni, hrFi,horariob,cedp;
+			// Leer campos del grupo
+			std::getline(grupoStream, ncr, ',');
+			std::getline(grupoStream, cupo, ',');
+			std::getline(grupoStream, cantEst, ',');
+			std::getline(grupoStream, hrIni, ',');
+			std::getline(grupoStream, hrFi, ',');
+			std::getline(grupoStream, horariob, ',');				
+			std::getline(grupoStream, cedp, ',');
+			// Convertir el horario en bits a un arreglo de booleanos
+			bool dias[7] = { false, false, false, false, false, false, false };
+			for (int j = 0; j < 7 && j < horariob.size(); ++j) {
+			dias[j] = horariob[j] == '1';
+			}
+			// Crear el objeto Horario
+			Horario* horario = new Horario(hrIni, hrFi, dias);
+			// Crear el objeto Grupo
+			Grupo* grupo = new Grupo(ncr, std::stoi(cupo), horario);
+			// Asignar profesor si existe
+			Profesor* profesor = escuela->buscarProfesor(cedp);
+			if (profesor != nullptr) {
+			grupo->setProfesor(profesor);
+			}
+			else {
+			grupo->setProfesor(NULL);
+			}
+			// Matricular estudiantes
+			for (int j = 0; j <std::stoi( cantEst); ++j) {
+				std::string cedA;
+				std::getline(grupoStream, cedA, ',');
+				// Verifica si la cédula no es "NULL"
+				if (!cedA.empty() && cedA != "NULL") {
+					Estudiante* estudiante = escuela->buscarEstudiante(cedA);
+					if (estudiante != nullptr) {
+						grupo->matricularEstudiante(estudiante);
+					}
+				}
+			}
+			if (periodoNum != 0) {
+				escuela->buscarPeriodo(periodoNum)->buscarCurso(codigo)->insertarGrupo(grupo);
+			}
+		}
+	}
+	archivo.close();
+}

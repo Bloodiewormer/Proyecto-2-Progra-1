@@ -1,6 +1,6 @@
 #include "Horario.h"
 
-Horario::Horario(string horaInicio, string horaFin, bool Dia[7])
+Horario::Horario(std::string horaInicio, std::string horaFin, bool Dia[7])
 {
 	this->horaInicio = horaInicio;
 	this->horaFin = horaFin;
@@ -15,11 +15,11 @@ Horario::~Horario()
 
 }
 
-string Horario::toString()
+std::string Horario::toString()
 {
-	stringstream s;
-	s << "Hora de inicio: " << horaInicio << endl;
-	s << "Hora de fin: " << horaFin << endl;
+	std::stringstream s;
+	s << "Hora de inicio: " << horaInicio << std::endl;
+	s << "Hora de fin: " << horaFin << std::endl;
 	s << "Dias: ";
 	for (int i = 0; i < 7; i++)
 	{
@@ -54,9 +54,9 @@ string Horario::toString()
 	return s.str();
 }
 
-string Horario::toStringCSV()
+std::string Horario::toStringCSV()
 {
-	stringstream s;
+	std::stringstream s;
 	s << horaInicio << "," << horaFin << ",";
 	for (int i = 0; i < 7; i++)
 	{
@@ -70,7 +70,6 @@ string Horario::toStringCSV()
 		}
 	}
 	return s.str();
-	
 }
 
 

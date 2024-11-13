@@ -7,7 +7,7 @@ ListaCurso::ListaCurso()
 }
 
 ListaCurso::~ListaCurso()
-{//Elimina los nodos, pero no los cursos 
+{
 	while (isEmpty())
 	{
 		actual = primer;
@@ -21,7 +21,7 @@ bool ListaCurso::isEmpty() const
 	return primer == NULL;
 }
 
-bool ListaCurso::Existe(std::string codigo)
+bool ListaCurso::existeCurso(std::string codigo)
 {
 	actual = primer;
 	while (actual != NULL)
@@ -54,6 +54,18 @@ bool ListaCurso::insertar(Curso* curso)
 		actual = nuevo;
 	}
 	return true;
+}
+
+bool ListaCurso::existeGrupo(std::string NCR)
+{
+	actual = primer;
+	while (actual != NULL)
+	{
+		if (actual->getCurso()->existeGrupo(NCR))
+			return true;
+		actual = actual->getSig();
+	}
+	return false;
 }
 
 int ListaCurso::contarCursos()
@@ -106,23 +118,21 @@ ListaCurso* ListaCurso::cursosImpartidosProfesor(Profesor* profesor)
 	return cursos;
 }
 
-ListaCurso* ListaCurso::cursosMatriculadosEstudiante(Estudiante* e)
-{
-	//los cursos devueltos solo deben tener los grupos en los que el estudiante esta matriculado
-	ListaCurso* cursos = new ListaCurso();
+std::string ListaCurso::cursosMatriculadosEstudiante(Estudiante* e)
+{// este metodo devuelve un string con el nombre,codigo y NCR DE LOS GRUPOS EN LOS QUE ESTA MATRICULADO EL ESTUDIANTE
+	std::stringstream s;
 	actual = primer;
-
 	while (actual != NULL)
 	{
 		if (actual->getCurso()->grupoEstudianteMatriculado(e) != NULL)
 		{
-			Curso* c = new Curso(actual->getCurso()->getNombre(), actual->getCurso()->getcodigo(), actual->getCurso()->getCreditos(), actual->getCurso()->getCosto(), actual->getCurso()->getEstado());
-			c->insertarGrupo(actual->getCurso()->grupoEstudianteMatriculado(e));
-			cursos->insertar(c);
+			s << "Nombre: " << actual->getCurso()->getNombre() << " Codigo: " << actual->getCurso()->getcodigo() 
+			  << " NCR: " << actual->getCurso()->grupoEstudianteMatriculado(e)->getNCR() << std::endl;
 		}
 		actual = actual->getSig();
 	}
-	return cursos;
+	return s.str();
+
 }
 
 
@@ -151,6 +161,11 @@ Grupo* ListaCurso::buscarGrupo(std::string NCR)
 	return NULL;
 }
 
+NodoCurso* ListaCurso::getPrimer()
+{
+	return primer;
+}
+
 std::string ListaCurso::toString()
 {
 	std::stringstream s;
@@ -175,7 +190,8 @@ std::string ListaCurso::cursosDisponibles()
 	s << "---------------------------------------------------" << std::endl;
 	while (aux != NULL){
 		if (aux->getCurso()->getEstado()){
-			s << aux->cursosDisponibles() << std::endl;
+			s << "Nombre:" << aux->getCurso()->getNombre() << std::endl;
+			s << "Codigo:" << aux->getCurso()->getcodigo() << std::endl;
 			s << "---------------------------------------------------" << std::endl;
 		}
 		aux = aux->getSig();
@@ -218,13 +234,13 @@ std::string ListaCurso::toStringPeriodoCSV()
 	
 }
 
-std::string ListaCurso::toStringGruposCSV()
+std::string ListaCurso::toStringGruposCSV(int p)
 {
 	std::stringstream s;
 	NodoCurso* aux = primer;
 	while (aux != NULL)
 	{
-		s << aux->getCurso()->toStringGruposCSV();
+		s << aux->getCurso()->toStringGruposCSV(p);
 		aux = aux->getSig();
 	}
 	return s.str();

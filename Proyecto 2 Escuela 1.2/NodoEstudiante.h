@@ -1,7 +1,6 @@
 #pragma once
 #include "Estudiante.h"
-class NodoEstudiante
-{
+class NodoEstudiante{
 private:
 	Estudiante* estudiante;
 	NodoEstudiante* siguiente;
@@ -14,4 +13,3 @@ public:
 	NodoEstudiante* getSiguiente();
 	void setSiguiente(NodoEstudiante* siguiente);
 };
-

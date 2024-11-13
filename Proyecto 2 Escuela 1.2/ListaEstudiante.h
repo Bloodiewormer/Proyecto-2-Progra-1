@@ -1,7 +1,6 @@
 #pragma once
 #include "NodoEstudiante.h"
-class ListaEstudiante
-{
+class ListaEstudiante{
 private:
 	NodoEstudiante* primer;
 	NodoEstudiante* actual;
@@ -19,4 +18,3 @@ public:
 	std::string toStringCSV();
 	std::string toStringIDCSV();
 };
-

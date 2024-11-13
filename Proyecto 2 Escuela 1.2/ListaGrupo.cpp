@@ -8,6 +8,12 @@ ListaGrupo::ListaGrupo()
 
 ListaGrupo::~ListaGrupo()
 {
+	while (primer != NULL)
+	{
+		actual = primer;
+		primer = primer->getSiguiente();
+		delete actual;
+	}
 }
 
 
@@ -16,7 +22,7 @@ bool ListaGrupo::isEmpty()
 	return primer == NULL;
 }
 
-bool ListaGrupo::Existe(string NRC)
+bool ListaGrupo::Existe(std::string NRC)
 {
 	NodoGrupo* aux = primer;
 	while (aux != NULL)
@@ -71,8 +77,12 @@ Grupo* ListaGrupo::NCRProfesor(Profesor* profesor)
 	actual = primer;
 	while (actual != NULL)
 	{
-		if (actual->getGrupo()->getProfesor()->getcedula() == profesor->getcedula()) {
-			return actual->getGrupo();
+		if (actual->getGrupo()->getProfesor()!=NULL)
+		{
+			if (actual->getGrupo()->getProfesor()->getcedula() == profesor->getcedula())
+			{
+				return actual->getGrupo();
+			}
 		}
 		actual = actual->getSiguiente();
 	}
@@ -95,7 +105,7 @@ Grupo* ListaGrupo::NCRMatriculado(Estudiante* estudiante)
 	return NULL;
 }
 
-bool ListaGrupo::ExisteEnOtroGrupo(Estudiante* estudiante, string NRC)
+bool ListaGrupo::ExisteEnOtroGrupo(Estudiante* estudiante, std::string NRC)
 {
 	NodoGrupo* aux = primer;
 	while (aux != NULL)
@@ -110,7 +120,23 @@ bool ListaGrupo::ExisteEnOtroGrupo(Estudiante* estudiante, string NRC)
 	
 }
 
-Grupo* ListaGrupo::buscar(string NRC)
+bool ListaGrupo::existeNRC(std::string NRC)
+{
+	if (primer == nullptr)
+	{
+		return false;
+	}
+	NodoGrupo* aux = primer;
+	while (aux != NULL)
+	{
+		if (aux->getGrupo()->getNCR() == NRC)
+			return true;
+		aux = aux->getSiguiente();
+	}
+	return false;
+}
+
+Grupo* ListaGrupo::buscar(std::string NRC)
 {
 	NodoGrupo* aux = primer;
 	while (aux != NULL)
@@ -122,7 +148,7 @@ Grupo* ListaGrupo::buscar(string NRC)
 	return NULL;
 }
 
-string ListaGrupo::toString()
+std::string ListaGrupo::toString()
 {
 	int cont = 0;
 	std::stringstream s;
@@ -151,7 +177,7 @@ std::string ListaGrupo::toStringGrupos()
 	{
 		cont++;
 		s << "-----------------------------------\n";
-		s << "Group" << cont << endl;
+		s << "Group" << cont << std::endl;
 		s << aux->getGrupo()->toString() << "\n";
 		s << "-----------------------------------\n";
 		aux = aux->getSiguiente();
@@ -164,13 +190,13 @@ std::string ListaGrupo::toStringGrupos()
 
 }
 
-string ListaGrupo::toStringCSV()
+std::string ListaGrupo::toStringCSV()
 {
 	std::stringstream s;
 	NodoGrupo* aux = primer;
 	while (aux != NULL)
 	{
-		s << aux->getGrupo()->toStringCSV() << aux->getGrupo()->toStringIDCSV() << endl;
+		s << aux->getGrupo()->toStringCSV() << aux->getGrupo()->toStringIDCSV() << std::endl;
 		aux = aux->getSiguiente();
 	}
 	return s.str();

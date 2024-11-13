@@ -1,7 +1,6 @@
 #pragma once
 #include "Grupo.h"
-class NodoGrupo
-{
+class NodoGrupo{
 private:
 	Grupo* grupo;
 	NodoGrupo* siguiente;
@@ -14,4 +13,3 @@ public:
 	NodoGrupo* getSiguiente();
 	void setSiguiente(NodoGrupo* siguiente);
 };
-

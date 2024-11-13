@@ -145,11 +145,6 @@ Curso* Interfaz::ingresarCurso(){
 	system("cls");
 }
 
-
-
-
-
-
 Grupo* Interfaz::crearGruposCursos(){
 	system("cls");// Grupo(std::string NCR, int cupo, Horario* horario);Horario(string horaInicio, string horaFin, bool Dia[7]);
 	std::string NCR;
@@ -199,7 +194,7 @@ Grupo* Interfaz::MatricularEstudiante(Escuela* e, Estudiante* est){
 		return nullptr;
 	}
 	Periodo* p = e->buscarPeriodo(periodo);
-	cout << p->cursosDisponibles();
+	std::cout << p->cursosDisponibles();
 	std::cout << "Ingrese el Codigo del Curso: ";
 	std::cin >> codigo;
 	system("cls");
@@ -215,7 +210,7 @@ Grupo* Interfaz::MatricularEstudiante(Escuela* e, Estudiante* est){
 		system("cls");
 		return nullptr;
 	}
-	else if (e->buscarPeriodo(periodo)->buscarCurso(codigo)->ExisteEnOtroGrupo(est, NCR)){
+	else if (e->buscarPeriodo(periodo)->buscarCurso(codigo)->existeEnOtroGrupo(est, NCR)){
 		std::cout << "Estudiante ya matriculado en otro grupo\n";
 		system("pause");
 		system("cls");
@@ -241,15 +236,15 @@ Grupo* Interfaz::MatricularEstudiante(Escuela* e, Estudiante* est){
 		//Mostrae curso y factura
 		system("cls");
 		std::cout << "=====================================\n";
-		cout << "||	Curso Matriculado             ||\n";
-		cout << "=====================================\n";
-		cout <<"Nombre: " << e->buscarPeriodo(periodo)->buscarCurso(codigo)->getNombre() << "\n";
-		cout << "Codigo: " << e->buscarPeriodo(periodo)->buscarCurso(codigo)->getcodigo() << "\n";
-		cout << "Creditos: " << e->buscarPeriodo(periodo)->buscarCurso(codigo)->getCreditos() << "\n";
-		cout << "Costo: " << e->buscarPeriodo(periodo)->buscarCurso(codigo)->getCosto() << "\n";
-		cout << "=====================================\n";
+		std::cout << "||	Curso Matriculado             ||\n";
+		std::cout << "=====================================\n";
+		std::cout <<"Nombre: " << e->buscarPeriodo(periodo)->buscarCurso(codigo)->getNombre() << "\n";
+		std::cout << "Codigo: " << e->buscarPeriodo(periodo)->buscarCurso(codigo)->getcodigo() << "\n";
+		std::cout << "Creditos: " << e->buscarPeriodo(periodo)->buscarCurso(codigo)->getCreditos() << "\n";
+		std::cout << "Costo: " << e->buscarPeriodo(periodo)->buscarCurso(codigo)->getCosto() << "\n";
+		std::cout << "=====================================\n";
 		facturacionMatricula(e, est, p, e->buscarPeriodo(periodo)->buscarCurso(codigo));
-		cout << "=====================================\n";
+		std::cout << "=====================================\n";
 		system("pause");
 		system("cls");
 		return e->buscarPeriodo(periodo)->buscarCurso(codigo)->buscarGrupo(NCR);
@@ -257,31 +252,32 @@ Grupo* Interfaz::MatricularEstudiante(Escuela* e, Estudiante* est){
 }
 
 Grupo* Interfaz::darBajaEstudiante(Escuela* e,Estudiante* est){
-	int S = 0;//S=0 no se encontro el grupo
 	std::string NCR;
-	for (int i = 0; i < 4; i++){
-		if (e->buscarPeriodo(i+1)!=nullptr){
-			ListaCurso* cursos = e->buscarPeriodo(i+1)->cursosMatriculadosEstudiante(est);
-			if (cursos->isEmpty()){
-				std::cout << "Periodo " << i + 1 << " no hay cursos matriculados" << std::endl;
+	system("cls");
+	int size = 0;
+	for (int i = 1; i <= 4; i++){
+		if (e->buscarPeriodo(i) != nullptr) {
+			if (e->gruposMatriculadosEstudiantePeriodo(est, e->buscarPeriodo(i)) != nullptr) {
+				std::cout << e->buscarPeriodo(i)->cursosMatriculadosEstudiante(est);
+				size++;
 			}
-			else{
-				std::cout << "Periodo " << i + 1 << std::endl;
-				std::cout << cursos->toString() << std::endl;
-				S++;
+			else {
+				std::cout << "No hay grupos matriculados en el periodo " << i << std::endl;
 			}
-		}else{
-			std::cout << "Periodo " << i + 1 << " no habilitado" << std::endl;
+		}
+		else {
+			std::cout << "Periodo " << i << " no habilitado" << std::endl;
 		}
 	}
-	if (S == 0){
-		std::cout << "No hay cursos matriculados" << std::endl;
+	if (size == 0) {
+		std::cout << "No hay cursos matriculados\n";
 		system("pause");
 		system("cls");
 		return nullptr;
 	}
-	cout << "Ingrese el Codigo del NCR: ";
-	cin >> NCR;
+
+	std::cout << "Ingrese el Codigo del NCR: ";
+	std::cin >> NCR;
 	Grupo* grupo = e->buscarGrupo(NCR);
 	if (grupo != nullptr){
 		return grupo;
@@ -334,12 +330,25 @@ Grupo* Interfaz::BuscarGrupo(Escuela* e){
 	std::string NCR;
 	std::string codigo;
 	int periodo;
-	cout << "Ingrese el periodo: ";
-	cin >> periodo;
-	//mostrar cursos del periodo
-	cout << "Ingrese el codigo del Curso: ";
-	cin >> codigo;
-	//mostrar grupos del curso
+	std::cout << "Ingrese el periodo: ";
+	std::cin >> periodo;
+	Periodo* p = e->buscarPeriodo(periodo);
+	if (p == nullptr) {
+		std::cout << "Periodo no habilitado\n";
+		system("pause");
+		system("cls");
+		return nullptr;
+	}
+	std::cout << p->cursosDisponibles();
+	std::cout << "Ingrese el codigo del Curso: ";
+	std::cin >> codigo;
+	if (e->buscarPeriodo(periodo)->buscarCurso(codigo) == nullptr) {
+		std::cout << "Curso no encontrado\n";
+		system("pause");
+		system("cls");
+		return nullptr;
+	}
+	std::cout << e->buscarPeriodo(periodo)->buscarCurso(codigo)->gruposDisponibles();
 	std::cout << "Ingrese el NCR del Grupo: ";
 	std::cin >> NCR;
 	return e->buscarPeriodo(periodo)->buscarCurso(codigo)->buscarGrupo(NCR);
@@ -365,6 +374,12 @@ void Interfaz::informeProfesorEspecifico(Escuela* E){
 	std::cout << "||    Informe Profesor Especifico ||\n";
 	std::cout << "=====================================\n";
 	Profesor* profesor = Interfaz::BuscarProfesor(E);
+	if (profesor == nullptr) {
+		std::cout << "Profesor no encontrado\n";
+		system("pause");
+		system("cls");
+		return;
+	}
 	std::cout << E->informeProfesorEspecifico(profesor);
 	std::cout << "Cursos Impartidos\n";
 	for (int i = 1; i <= 4; i++){
@@ -374,7 +389,6 @@ void Interfaz::informeProfesorEspecifico(Escuela* E){
 				std::cout << "No hay cursos impartidos\n";
 			}
 			else {
-				std::cout << "Prueba";
 				std::cout << E->cursosImpartidosProfesor(profesor, E->buscarPeriodo(i))->toString();
 			}
 		}
@@ -388,7 +402,7 @@ void Interfaz::informeProfesorEspecifico(Escuela* E){
 
 void Interfaz::informeGrupoEspecifico(Escuela* E){
 	system("cls");
-	string NCR;
+	std::string NCR;
 	std::cout << "Ingrese el NCR del Grupo: ";
 	std::cin >> NCR;
 	Grupo* grupo = E->buscarGrupo(NCR);

@@ -6,12 +6,14 @@ Grupo::Grupo(std::string NCR, int cupo, Horario* horario)
 	this->cupo = cupo;
 	this->cantidadEstudiantes = 0;
 	this->horario = horario;
-	profesor = nullptr;
+	this->profesor = nullptr;
 	estudiantes = new ListaEstudiante();
 }
 
 Grupo::~Grupo()
-{
+{ 
+	//La relacion es agregacion por lo que los estudiantes no se eliminan
+	//solamente vaciamos la lista
 	if (estudiantes != nullptr) {
 		NodoEstudiante* aux = estudiantes->getPrimer();
 		while (aux != NULL)

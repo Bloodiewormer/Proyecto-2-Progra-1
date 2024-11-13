@@ -1,12 +1,10 @@
 #include "Curso.h"
 
-Curso::Curso() :nombre(""), codigo(""), creditos(0), costo(0), estado(false)
-{
+Curso::Curso() :nombre(""), codigo(""), creditos(0), costo(0), estado(false){
 	grupos = new ListaGrupo();
 }
 
-Curso::Curso(std::string nombre, std::string codigo, int creditos, double costo, bool estado)
-{
+Curso::Curso(std::string nombre, std::string codigo, int creditos, double costo, bool estado){
 	this->nombre = nombre;
 	this->codigo = codigo;
 	this->creditos = creditos;
@@ -14,106 +12,88 @@ Curso::Curso(std::string nombre, std::string codigo, int creditos, double costo,
 	this->estado = estado;
 	//inicializar la lista de grupos
 	grupos = new ListaGrupo();
-
 }
 
-Curso::~Curso()
-{
+Curso::~Curso(){
 	delete grupos;
 }
 
-bool Curso::insertarGrupo(Grupo* grupo)
-{
+bool Curso::insertarGrupo(Grupo* grupo){
 	return grupos->insertar(grupo);
 }
 
-Grupo* Curso::buscarGrupo(std::string NCR)
-{
-	if (grupos == nullptr)
-	{
+Grupo* Curso::buscarGrupo(std::string NCR){
+	if (grupos == nullptr){
 		return nullptr;
 	}
-	else
-	{
+	else{
 		return grupos->buscar(NCR);
 	}
 }
 
-Grupo* Curso::grupoImpartidoProfesor(Profesor* p)
-{
+Grupo* Curso::grupoImpartidoProfesor(Profesor* p){
 	//Este metodo devuelve el grupo que el profesor esta impartiendo
 	grupos->NCRProfesor(p);
-	if (grupos->NCRProfesor(p) != NULL)
-	{
+	if (grupos->NCRProfesor(p) != NULL){
 		return grupos->buscar(grupos->NCRProfesor(p)->getNCR());
 	}
-	else
-	{
+	else{
 		return NULL;
 	}
 }
 
+//Este metodo devuelve el grupo en el que el estudiante esta matriculado
+//Si el estudiante no esta matriculado en ningun grupo, devuelve NULL
+//Para que funcione correctamente, el estudiante debe estar matriculado en un solo grupo
 Grupo* Curso::grupoEstudianteMatriculado(Estudiante* e)
 {
 	//Este metodo devuelve el grupo en el que el estudiante esta matriculado
 	grupos->NCRMatriculado(e);
-	if (grupos->NCRMatriculado(e) != NULL)
-	{
+	if (grupos->NCRMatriculado(e) != NULL){
 		return grupos->buscar(grupos->NCRMatriculado(e)->getNCR());
 	}
-	else
-	{
+	else{
 		return NULL;
-
 	}
 }
 
-bool Curso::ExisteEnOtroGrupo(Estudiante* estudiante, std::string NRC)
-{
+bool Curso::existeGrupo(std::string NCR){
+	return grupos->existeNRC(NCR);
+}
+
+bool Curso::existeEnOtroGrupo(Estudiante* estudiante, std::string NRC){
 	return grupos->ExisteEnOtroGrupo(estudiante, NRC);
 }
 
-
-std::string Curso::getcodigo() const
-{
+std::string Curso::getcodigo() const{
 		return codigo;
 }
 
-int Curso::getCreditos() const
-{
-	return creditos;
-	
+int Curso::getCreditos() const{
+	return creditos;	
 }
 
-double Curso::getCosto() const
-{
+double Curso::getCosto() const{
 	return costo;
 }
 
-bool Curso::getEstado() const
-{
+bool Curso::getEstado() const{
 	return estado;
 }
 
-void Curso::setEstado(bool estado)
-{
+void Curso::setEstado(bool estado){
 	this->estado = estado;
-
 }
 
-std::string Curso::getNombre() const
-{
+std::string Curso::getNombre() const{
 	return nombre;
-
 }
 
-std::string Curso::gruposDisponibles() const
-{
+std::string Curso::gruposDisponibles() const{
 	return grupos->toString();
 }
 
-std::string Curso::toString() const
-{
+std::string Curso::toString() const{
 	std::stringstream s;
 	s << "Nombre: " << nombre << std::endl;
 	s << "Codigo: " << codigo << std::endl;
@@ -123,35 +103,23 @@ std::string Curso::toString() const
 	return s.str();
 }
 
-
-std::string Curso::toStringCSV() const
-{
+std::string Curso::toStringCSV() const{
 	std::stringstream s;
 	s << nombre << "," << codigo << "," << creditos << "," << costo << "," << (estado ? "Abierto" : "Cerrado");
 	return s.str();
-	
 }
 
-std::string Curso::toStringGruposCSV() const
-{
+std::string Curso::toStringGruposCSV(int p) const{
 	std::stringstream s;
 	int c = grupos->contarGrupos();
-	if (c == 0)
-	{
+	if (c == 0){
 		s << "";
 	}
-	else
-	{
-		s << "Codigo , Cant. Grupos" << std::endl;
-		s << codigo << "," << c << std::endl;
-		s << "ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn" << endl;
+	else{
+		s << "Periodo, Codigo , Cant. Grupos" << std::endl;
+		s << p<<"," << codigo << "," << c << std::endl;
+		s << "ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn" << std::endl;
 		s << grupos->toStringCSV();
 	}
 	return s.str();
 }
-
-
-
-
-
-

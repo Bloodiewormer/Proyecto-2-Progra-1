@@ -1,8 +1,7 @@
 #pragma once
 #include <iostream>
 #include <sstream>
-class Persona
-{
+class Persona {//clase abstracta
 protected:
 	std::string nombre;
 	std::string cedula;
@@ -14,7 +13,7 @@ public:
 	virtual ~Persona();
 	std::string getcedula() const;
 	std::string getnombre() const;
-	virtual std::string toString() const = 0;	
-	virtual std::string toStringCSV() const = 0;
+	virtual std::string toString() const = 0;	//metodo virtual puro
+	virtual std::string toStringCSV() const = 0;//metodo virtual puro
 };
 

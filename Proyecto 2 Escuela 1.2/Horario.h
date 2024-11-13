@@ -1,17 +1,18 @@
 #pragma once
 #include <iostream>
 #include <sstream>
-using namespace std;
-class Horario
-{
+class Horario{
 private:
-	string horaInicio;
-	string horaFin;
-	bool Dia[7];
+	std::string horaInicio;
+	std::string horaFin;
+	bool Dia[7];// Vector de 7 posiciones que indica los dias de la semana
 public:
-	Horario(string horaInicio, string horaFin, bool Dia[7]);
-	~Horario();
-	string toString();
-	string toStringCSV();
+	//Constructores
+	Horario(std::string horaInicio, std::string horaFin, bool Dia[7]);
+	//Destructor
+	virtual ~Horario();
+	//toString
+	std::string toString();
+	std::string toStringCSV();
 };
 

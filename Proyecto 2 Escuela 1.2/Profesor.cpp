@@ -7,13 +7,11 @@ Profesor::Profesor(std::string nombre, std::string cedula, std::string telefono,
 
 Profesor::~Profesor() {}
 
-std::string Profesor::getGradoAcademico() const
-{ 
+std::string Profesor::getGradoAcademico() const{ 
 	return GradoAcademico;
 }
 
-std::string Profesor::toString() const
-{
+std::string Profesor::toString() const{
 	std::stringstream s;
 	s << "nombre: " << nombre << "\n";
 	s << "cedula: " << cedula << "\n";
@@ -23,8 +21,7 @@ std::string Profesor::toString() const
 	return s.str();
 }
 
-std::string Profesor::toStringCSV() const
-{
+std::string Profesor::toStringCSV() const{
 	std::stringstream s;
 	s << nombre << "," << cedula << "," << telefono << "," << correo << "," << GradoAcademico;
 	return s.str();

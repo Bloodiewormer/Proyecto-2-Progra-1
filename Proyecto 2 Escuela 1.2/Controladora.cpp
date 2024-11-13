@@ -1,25 +1,26 @@
 #include "Controladora.h"
 
-Controladora::Controladora()
-{
+Controladora::Controladora(){
 	escuela = new Escuela();
 	fileManager = new FileManager();
 }
 
-void Controladora::iniciar()
-{
+Controladora::~Controladora(){
+	delete escuela;
+	delete fileManager;
+}
+
+void Controladora::iniciar(){
 	cargarArchivos();
-	Interfaz::mostarBanner();
+	Interfaz::mostarBanner();//Muestra el banner de Informacion del Proyecto
 	menuPrincipal();
 }
 
-void Controladora::menuPrincipal()
-{
+void Controladora::menuPrincipal(){
 	int opcion;
 	do {
 		opcion = Interfaz::menuPrincipal();
-		switch (opcion)
-		{
+		switch (opcion){
 		case 1:
 			submenuAdmin();
 			break;
@@ -43,16 +44,13 @@ void Controladora::menuPrincipal()
 			break;
 		}
 	} while (opcion != -1);
-
 }
 
-void Controladora::submenuAdmin()
-{
+void Controladora::submenuAdmin(){
 	int opcion;
 	do {
 		opcion = Interfaz::submenuAdmin();
-		switch (opcion)
-		{
+		switch (opcion){
 		case 1:
 			//Ingresar Profesor
 			ingresarProfesor();
@@ -86,13 +84,11 @@ void Controladora::submenuAdmin()
 	} while (opcion != 0);
 }
 
-void Controladora::submenuMatricula()
-{
+void Controladora::submenuMatricula(){
 	int opcion;
 	do {
 		opcion = Interfaz::submenuMatricula();
-		switch (opcion)
-		{
+		switch (opcion){
 		case 1:
 			//Matricular Estudiante
 			matricularEstudiante();
@@ -110,13 +106,11 @@ void Controladora::submenuMatricula()
 	} while (opcion != 0);
 }
 
-void Controladora::submenuBusqueda()
-{
+void Controladora::submenuBusqueda(){
 	int opcion;
 	do {
 		opcion = Interfaz::submenuBusqueda();
-		switch (opcion)
-		{
+		switch (opcion){
 		case 1:
 			//Informe Profesores Registrados
 			informeProfesoresRegistrados();
@@ -151,8 +145,7 @@ void Controladora::submenuBusqueda()
 }
 
 
-void Controladora::guardarArchivos()
-{
+void Controladora::guardarArchivos(){
 	//Guardar Archivos
 	std::cout << "Guardando Archivos" << std::endl;
 	fileManager->guardarEstudiantes(escuela->getListaEstudiantes(),"Estudiantes.csv");
@@ -162,11 +155,9 @@ void Controladora::guardarArchivos()
 	fileManager->guardarGrupos(escuela, "Grupos.csv");
 }
 
-void Controladora::cargarArchivos()
-{
+void Controladora::cargarArchivos(){
 	//Cargar Archivos
 	std::cout << "Cargando Archivos" << std::endl;
-	std::system("sleep 1");
 	fileManager->cargarEstudiantes(escuela, "Estudiantes.csv");
 	fileManager->cargarProfesores(escuela, "Profesores.csv");
 	fileManager->cargarCursos(escuela, "Cursos.csv");
@@ -174,8 +165,7 @@ void Controladora::cargarArchivos()
 	fileManager->cargarGrupos(escuela, "Grupos.csv");
 }
 
-void Controladora::ingresarProfesor()
-{
+void Controladora::ingresarProfesor(){
 	Profesor* P = Interfaz::ingresarProfesor();
 	if (escuela->PersonaRepetida(P->getcedula()) == true)
 		Interfaz::mensaje("Persona Repetida");
@@ -183,23 +173,19 @@ void Controladora::ingresarProfesor()
 		Interfaz::mensaje("Profesor Ingresado Correctamente");
 	else
 		Interfaz::mensaje("Error al Ingresar Profesor");
-	
 }
 
-void Controladora::ingresarEstudiante()
-{
+void Controladora::ingresarEstudiante(){
 	Estudiante* E = Interfaz::ingresarEstudiante();
 	if (escuela->PersonaRepetida(E->getcedula()) == true)
 		Interfaz::mensaje("Persona Repetida");
 	else if (escuela->ingresarEstudiante(E) == true)
 		Interfaz::mensaje("Estudiante Ingresado Correctamente");
 	else
-		Interfaz::mensaje("Error al Ingresar Estudiante")
-;
+		Interfaz::mensaje("Error al Ingresar Estudiante");
 }
 
-void Controladora::habilitarPeriodoLectivo()
-{
+void Controladora::habilitarPeriodoLectivo(){
 	int numP = Interfaz::habilitarPeriodoLectivo();
 	if (escuela->habilitarPeriodo(numP) == true)
 		Interfaz::mensaje("Periodo Habilitado Correctamente");
@@ -207,8 +193,7 @@ void Controladora::habilitarPeriodoLectivo()
 		Interfaz::mensaje("Error al Habilitar Periodo");
 }
 
-void Controladora::ingresarCurso()
-{
+void Controladora::ingresarCurso(){
 	Curso* C = Interfaz::ingresarCurso();
 	if (escuela->ingresarCurso(C) == true)
 		Interfaz::mensaje("Curso Ingresado Correctamente");
@@ -216,12 +201,19 @@ void Controladora::ingresarCurso()
 		Interfaz::mensaje("Error al Ingresar Curso");
 }
 
-void Controladora::crearGruposCursos()
-{
+void Controladora::crearGruposCursos(){
 	int numP = Interfaz::BuscarPeriodo(escuela);
-	cout << escuela->getListaCursos()->cursosDisponibles();//cout no deberia estar aca, pero estoy cansado, sorry
-	Curso* C = Interfaz::BuscarCurso(escuela);
+	std::cout << escuela->getListaCursos()->cursosDisponibles();//cout no deberia estar aca, pero estoy cansado, sorry
+	Curso* C = Interfaz::BuscarCurso(escuela);			   //Dejalo ahi, tampoco es que sea un error
 	Grupo* G = Interfaz::crearGruposCursos();
+	for (int i = 1; i <= 4; i++){
+		if (escuela->buscarPeriodo(i) != nullptr){
+			if (escuela->buscarPeriodo(i)->existeGrupo(G->getNCR())){
+				Interfaz::mensaje("Grupo Repetido");
+				return;
+			}
+		}	
+	}
 	if (C == nullptr) 
 		Interfaz::mensaje("Error al Buscar Curso");
 	else if (escuela->buscarPeriodo(numP) == NULL)
@@ -232,18 +224,24 @@ void Controladora::crearGruposCursos()
 		Interfaz::mensaje("Error al Ingresar Grupo");
 }
 
-void Controladora::asociarProfesorGrupo()
-{
+void Controladora::asociarProfesorGrupo(){
 	Profesor* P = Interfaz::BuscarProfesor(escuela);
+	if (P == NULL) {
+		Interfaz::mensaje("Error al Buscar Profesor");
+		return;
+	}
 	Grupo* G = Interfaz::BuscarGrupo(escuela);
+	if (G == NULL) {
+		Interfaz::mensaje("Error al Buscar Grupo");
+		return;
+	}
 	if (escuela->asignarProfesor(P, G) == true)
 		Interfaz::mensaje("Profesor Asignado Correctamente");
 	else
 		Interfaz::mensaje("Error al Asignar Profesor");
 }
 
-void Controladora::matricularEstudiante()
-{
+void Controladora::matricularEstudiante(){
 	Estudiante* E = Interfaz::BuscarEstudiante(escuela);
 	Grupo* G = Interfaz::MatricularEstudiante(escuela, E);
 	if (G == nullptr) {
@@ -251,59 +249,40 @@ void Controladora::matricularEstudiante()
 	}
 	else if (escuela->matricularEstudiante(E, G) == true)
 		Interfaz::mensaje("Estudiante Matriculado Correctamente");
-	
-
-
-		
 }
 
-void Controladora::darBajaEstudiante()
-{
+void Controladora::darBajaEstudiante(){
 	Estudiante* E = Interfaz::BuscarEstudiante(escuela);
 	Grupo* G = Interfaz::darBajaEstudiante(escuela,E);
 	if (G == nullptr) {
 		Interfaz::mensaje("ERROR");
 	}
-	else
-	if (escuela->darBajaEstudiante(E, G) == true)
+	else if (escuela->darBajaEstudiante(E, G) == true)
 		Interfaz::mensaje("Estudiante Dado de Baja Correctamente");
 	else
 		Interfaz::mensaje("Error al Dar de Baja Estudiante");
 }
 
-void Controladora::informeProfesoresRegistrados()
-{
+void Controladora::informeProfesoresRegistrados(){
 	Interfaz::informeProfesoresRegistrados(escuela);
 }
 
-void Controladora::informeEstudiantesRegistrados()
-{
+void Controladora::informeEstudiantesRegistrados(){
 	Interfaz::informeEstudiantesRegistrados(escuela);
 }
 
-void Controladora::informeCursosMatriculadosEstudiante()
-{
+void Controladora::informeCursosMatriculadosEstudiante(){
 	Interfaz::informeCursosMatriculadosEstudiante(escuela);
 }
 
-void Controladora::informeProfesorEspecifico()
-{
+void Controladora::informeProfesorEspecifico(){
 	Interfaz::informeProfesorEspecifico(escuela);
 }
 
-void Controladora::informePeriodosHabilitados()
-{
+void Controladora::informePeriodosHabilitados(){
 	Interfaz::informePeriodosHabilitados(escuela);
-
 }
 
-void Controladora::informeGrupoEspecifico()
-{
+void Controladora::informeGrupoEspecifico(){
 	Interfaz::informeGrupoEspecifico(escuela);
 }
-
-
-
-
-
-

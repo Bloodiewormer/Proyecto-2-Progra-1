@@ -1,29 +1,14 @@
-Periodo 1
-Codigo , Cant. Grupos
-EIF201,2
+Periodo, Codigo , Cant. Grupos
+1,EIF201,2
 ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
-1,10,0,11,12,1000101,NULL,
-
-2,10,0,5,6,1000000,NULL,
-
-
-Codigo , Cant. Grupos
-MAT001,1
+1,10,0,12,1,1000100,NULL,
+10,14,0,10,12,1010100,NULL,
+Periodo, Codigo , Cant. Grupos
+1,MAT001,1
 ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
-3,14,0,9,11,0100001,NULL,
-
-
-Periodo 2
-Codigo , Cant. Grupos
-MAT002,1
+2,1,0,17,18,1001000,NULL,
+Periodo, Codigo , Cant. Grupos
+2,MAT001,2
 ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
-4,9,0,3,7,1111111,NULL,
-
-
-Periodo 3
-Codigo , Cant. Grupos
-EIF203,1
-ncr,cupo,cantEst,hrIni,hrFi,Horario,cedp,cedA1,cedA2,cedAn
-5,14,0,6,8,0000010,NULL,
-
-
+3,13,0,10,12,1000000,NULL,
+4,17,0,2,5,0000001,NULL,

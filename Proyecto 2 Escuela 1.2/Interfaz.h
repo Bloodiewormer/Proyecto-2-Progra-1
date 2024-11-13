@@ -2,8 +2,7 @@
 #include <iostream>
 #include "Escuela.h"
 #include "Factura.h"
-class Interfaz
-{
+class Interfaz{//clase que se encarga de la interaccion con el usuario
 public:
 	static void mostarBanner();
 	static int menuPrincipal();
@@ -33,5 +32,3 @@ public:
 	static bool ConfirmarSalida();
 	static void opcionInvalida();
 };
-
-
