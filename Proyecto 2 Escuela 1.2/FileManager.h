@@ -21,9 +21,9 @@ public:
 //se considera una clase de utilidades y cualquier relacion de clases en el uml se como una
 // Dependencia 
 //	+----------------+			+------------------ +
-//	| FileManager	 | < -----> |  Controladora     |
+//	| FileManager	 | 	< ----->	|    Controladora   |
 //	|----------------|			+------------------ +
-//	| +guardar...()	 |		    |                   |
+//	| +guardar...()	 |			|                   |
 //	| +cargar...()	 |			|                   |
 //	+----------------+			+------------------ +
 
